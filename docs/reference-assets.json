@@ -1,0 +1,974 @@
+[
+  {
+    "url": "https://m.media-amazon.com/images/G/01/gno/sprites/nav-sprite-global-1x-reorg-privacy._CB779528203_.png",
+    "local": "/assets/reference/a131eec97c81ff48.png"
+  },
+  {
+    "url": "https://m.media-amazon.com/images/I/61gkmopG9gL._SX1500_.jpg",
+    "local": "/assets/reference/ab366241126dbbb4.jpg"
+  },
+  {
+    "url": "https://images-na.ssl-images-amazon.com/images/G/01/DiscoTec/2024/HomeLifestyle/HomeSummerFlip/Homepage/QuadCards/Home_Flip_Summer_2024_316_HP_NewArrivals_QuadCard_D_02_1x._SY116_CB555960040_.jpg",
+    "local": "/assets/reference/d821da00440eec1c.jpg"
+  },
+  {
+    "url": "https://images-na.ssl-images-amazon.com/images/G/01/DiscoTec/2024/HomeLifestyle/HomeSummerFlip/Homepage/QuadCards/Home_Flip_Summer_2024_315_HP_NewArrivals_QuadCard_D_01_1x._SY116_CB555960040_.jpg",
+    "local": "/assets/reference/4caab0b1d3f3ed6f.jpg"
+  },
+  {
+    "url": "https://images-na.ssl-images-amazon.com/images/G/01/DiscoTec/2024/HomeLifestyle/HomeSummerFlip/Homepage/QuadCards/Home_Flip_Summer_2024_318_HP_NewArrivals_QuadCard_D_04_1x._SY116_CB555960040_.jpg",
+    "local": "/assets/reference/cdeb1caaa6497025.jpg"
+  },
+  {
+    "url": "https://images-na.ssl-images-amazon.com/images/G/01/DiscoTec/2024/HomeLifestyle/HomeSummerFlip/Homepage/QuadCards/Home_Flip_Summer_2024_317_HP_NewArrivals_QuadCard_D_03_1x._SY116_CB555960040_.jpg",
+    "local": "/assets/reference/950f9fa40eca21de.jpg"
+  },
+  {
+    "url": "https://images-na.ssl-images-amazon.com/images/G/01/AMAZON_FASHION/2023/LuxuryStores/Spring-23/GW/Quad_Cards/Spring/LSS23_SPRING_DT_CAT_CARD_3_x1._SY116_CB595261253_.jpg",
+    "local": "/assets/reference/f4963edd4e122be7.jpg"
+  },
+  {
+    "url": "https://images-na.ssl-images-amazon.com/images/G/01/AMAZON_FASHION/2023/LuxuryStores/Spring-23/GW/Quad_Cards/Spring/LSS23_SPRING_DT_CAT_CARD_1_x1._SY116_CB595261253_.jpg",
+    "local": "/assets/reference/867dd3e0a203917a.jpg"
+  },
+  {
+    "url": "https://images-na.ssl-images-amazon.com/images/G/01/AMAZON_FASHION/2023/LuxuryStores/Spring-23/GW/Quad_Cards/Spring/LSS23_SPRING_DT_CAT_CARD_4_x1._SY116_CB595261253_.jpg",
+    "local": "/assets/reference/779a6383af8ffb6e.jpg"
+  },
+  {
+    "url": "https://images-na.ssl-images-amazon.com/images/G/01/AMAZON_FASHION/2023/LuxuryStores/Spring-23/GW/Quad_Cards/Spring/LSS23_SPRING_DT_CAT_CARD_2_x1._SY116_CB595261253_.jpg",
+    "local": "/assets/reference/c0514a4ba72c5b37.jpg"
+  },
+  {
+    "url": "https://images-na.ssl-images-amazon.com/images/G/01/img18/home/2023/Q2/Homepage/2023Q2_GW_EE_Kitchen_D_Quad_186x116._SY116_CB594237035_.jpg",
+    "local": "/assets/reference/369381e3dd82f9f8.jpg"
+  },
+  {
+    "url": "https://images-na.ssl-images-amazon.com/images/G/01/img18/home/2023/Q2/Homepage/2023Q2_GW_EE_AccentFurniture_D_Quad_186x116._SY116_CB594237035_.jpg",
+    "local": "/assets/reference/dc8f8bbc2c6b4bab.jpg"
+  },
+  {
+    "url": "https://images-na.ssl-images-amazon.com/images/G/01/img18/home/2023/Q2/Homepage/2023Q2_GW_EE_Hallway_D_Quad_186x116._SY116_CB594237035_.jpg",
+    "local": "/assets/reference/389bf293eaa51bc0.jpg"
+  },
+  {
+    "url": "https://images-na.ssl-images-amazon.com/images/G/01/img18/home/2023/Q2/Homepage/2023Q2_GW_EE_LaundryLuxe_D_Quad_186x116._SY116_CB594237035_.jpg",
+    "local": "/assets/reference/64f21735e1c74948.jpg"
+  },
+  {
+    "url": "https://m.media-amazon.com/images/I/41ZPiDU6woL._AC_SY200_.jpg",
+    "local": "/assets/reference/29e8d488852aa695.jpg"
+  },
+  {
+    "url": "https://m.media-amazon.com/images/I/61kqPiVuSAL._AC_SY200_.jpg",
+    "local": "/assets/reference/adbacc5768350489.jpg"
+  },
+  {
+    "url": "https://m.media-amazon.com/images/I/61UEXxKIlrL._AC_SY200_.jpg",
+    "local": "/assets/reference/5b4d9294d5676f06.jpg"
+  },
+  {
+    "url": "https://m.media-amazon.com/images/I/71r7QyYkZxL._AC_SY200_.jpg",
+    "local": "/assets/reference/944ca10b349f8d91.jpg"
+  },
+  {
+    "url": "https://m.media-amazon.com/images/I/61qm+2koyBL._AC_SY200_.jpg",
+    "local": "/assets/reference/a73197cfc95a37c5.jpg"
+  },
+  {
+    "url": "https://m.media-amazon.com/images/I/61+hrZzQ18L._AC_SY200_.jpg",
+    "local": "/assets/reference/41c061b4275ad53a.jpg"
+  },
+  {
+    "url": "https://m.media-amazon.com/images/I/71S4-NjoTDL._AC_SY200_.jpg",
+    "local": "/assets/reference/0141594fdb591148.jpg"
+  },
+  {
+    "url": "https://m.media-amazon.com/images/I/61lbSexzAUL._AC_SY200_.jpg",
+    "local": "/assets/reference/82d78aa76fd31428.jpg"
+  },
+  {
+    "url": "https://m.media-amazon.com/images/I/411VuaxGFsL._AC_SY200_.jpg",
+    "local": "/assets/reference/231b025145613132.jpg"
+  },
+  {
+    "url": "https://m.media-amazon.com/images/I/51GMAyANcAL._AC_SY200_.jpg",
+    "local": "/assets/reference/fb7c4424e30d886d.jpg"
+  },
+  {
+    "url": "https://m.media-amazon.com/images/I/716cglvmUwL._AC_SY200_.jpg",
+    "local": "/assets/reference/ceed0be15918d1e5.jpg"
+  },
+  {
+    "url": "https://m.media-amazon.com/images/I/71NpF4JP7HL._AC_SY200_.jpg",
+    "local": "/assets/reference/1aa6a9c282fffa19.jpg"
+  },
+  {
+    "url": "https://m.media-amazon.com/images/I/61+YZKS2JyL._AC_SY200_.jpg",
+    "local": "/assets/reference/65b7d33ae8290041.jpg"
+  },
+  {
+    "url": "https://m.media-amazon.com/images/I/81YlKeBDwML._AC_SY200_.jpg",
+    "local": "/assets/reference/59feec518580d9a0.jpg"
+  },
+  {
+    "url": "https://images-na.ssl-images-amazon.com/images/G/01/AmazonExports/Events/2024/BAU2024Aug/Smartphone_1x._SY116_CB566164844_.jpg",
+    "local": "/assets/reference/10c5cb22961731c9.jpg"
+  },
+  {
+    "url": "https://images-na.ssl-images-amazon.com/images/G/01/AmazonExports/Events/2024/BAU2024Aug/Watches_1x._SY116_CB566164844_.jpg",
+    "local": "/assets/reference/2232614a0ff5e404.jpg"
+  },
+  {
+    "url": "https://images-na.ssl-images-amazon.com/images/G/01/AmazonExports/Events/2024/BAU2024Aug/Headphone_1x._SY116_CB566164844_.jpg",
+    "local": "/assets/reference/d5855d5a5f543796.jpg"
+  },
+  {
+    "url": "https://images-na.ssl-images-amazon.com/images/G/01/AmazonExports/Events/2025/Q1DefectReduction/Fuji_Defect_Reduction_1x_Laptop._SY116_CB549022351_.jpg",
+    "local": "/assets/reference/c15c7d78fd314a2d.jpg"
+  },
+  {
+    "url": "https://images-na.ssl-images-amazon.com/images/G/01/AmazonExports/Events/2024/BAU2024Aug/Tablet_1x._SY116_CB566164844_.jpg",
+    "local": "/assets/reference/7ba044050319b8b0.jpg"
+  },
+  {
+    "url": "https://images-na.ssl-images-amazon.com/images/G/01/AmazonExports/Events/2024/BAU2024Aug/Backpack_1x._SY116_CB566100767_.jpg",
+    "local": "/assets/reference/c26b2d43dd8d7064.jpg"
+  },
+  {
+    "url": "https://images-na.ssl-images-amazon.com/images/G/01/AmazonExports/Events/2024/BAU2024Aug/Accessories_1x._SY116_CB566100767_.jpg",
+    "local": "/assets/reference/c6ccda4c0744aa1b.jpg"
+  },
+  {
+    "url": "https://images-na.ssl-images-amazon.com/images/G/01/AmazonExports/Events/2025/Q1DefectReduction/Fuji_Defect_Reduction_1x_PC._SY116_CB549022351_.jpg",
+    "local": "/assets/reference/918f344527c4b4de.jpg"
+  },
+  {
+    "url": "https://images-na.ssl-images-amazon.com/images/G/01/AmazonExports/Events/2024/BAU2024Aug/TravelBag_1x._SY116_CB566100767_.jpg",
+    "local": "/assets/reference/ecf0cd0f0f123fc5.jpg"
+  },
+  {
+    "url": "https://images-na.ssl-images-amazon.com/images/G/01/AmazonExports/Events/2025/Q1DefectReduction/Fuji_Defect_Reduction_1x_Monitors._SY116_CB549022351_.jpg",
+    "local": "/assets/reference/47795f5c030aaad1.jpg"
+  },
+  {
+    "url": "https://images-na.ssl-images-amazon.com/images/G/01/AmazonExports/Events/2025/Q1DefectReduction/Fuji_Defect_Reduction_1x_Hard_Drives._SY116_CB549022351_.jpg",
+    "local": "/assets/reference/12237c942f7639ab.jpg"
+  },
+  {
+    "url": "https://images-na.ssl-images-amazon.com/images/G/01/AmazonExports/Events/2024/BAU2024Aug/Handbags_1x._SY116_CB566100767_.jpg",
+    "local": "/assets/reference/3ad1d46c7305c535.jpg"
+  },
+  {
+    "url": "https://images-na.ssl-images-amazon.com/images/G/01/AmazonExports/Events/2024/DskBTFQuadCards/Fuji_BTF_Quad_Cards_1x_Sponges._SY116_CB558654384_.jpg",
+    "local": "/assets/reference/a753d6bf393e34c4.jpg"
+  },
+  {
+    "url": "https://images-na.ssl-images-amazon.com/images/G/01/AmazonExports/Events/2024/DskBTFQuadCards/Fuji_BTF_Quad_Cards_1x_Brushes._SY116_CB558654384_.jpg",
+    "local": "/assets/reference/f83db64a2f3cbec8.jpg"
+  },
+  {
+    "url": "https://images-na.ssl-images-amazon.com/images/G/01/AmazonExports/Events/2024/DskBTFQuadCards/Fuji_BTF_Quad_Cards_1x_Make-up._SY116_CB558654384_.jpg",
+    "local": "/assets/reference/5d4f18f300b34f3f.jpg"
+  },
+  {
+    "url": "https://m.media-amazon.com/images/I/71GP1cZneBL._AC_SY200_.jpg",
+    "local": "/assets/reference/0764dcd7562ac0aa.jpg"
+  },
+  {
+    "url": "https://images-na.ssl-images-amazon.com/images/G/01/AmazonExports/Events/2024/DskBTFQuadCards/Fuji_BTF_Quad_Cards_1x_Mirrors._SY116_CB558654384_.jpg",
+    "local": "/assets/reference/3197d03b8e86fb9c.jpg"
+  },
+  {
+    "url": "https://m.media-amazon.com/images/I/51JzwHcjh1L._AC_SY200_.jpg",
+    "local": "/assets/reference/957ee6175f425cf0.jpg"
+  },
+  {
+    "url": "https://m.media-amazon.com/images/I/51wDsZxtTLL._AC_SY200_.jpg",
+    "local": "/assets/reference/d4b55f9fed67c940.jpg"
+  },
+  {
+    "url": "https://m.media-amazon.com/images/I/61x-LF9fyYL._AC_SY200_.jpg",
+    "local": "/assets/reference/f444c7bbe0df5661.jpg"
+  },
+  {
+    "url": "https://m.media-amazon.com/images/I/51rkKPruYvL._AC_SY200_.jpg",
+    "local": "/assets/reference/471580c58cbf457a.jpg"
+  },
+  {
+    "url": "https://m.media-amazon.com/images/I/71QyRZzbaUL._AC_SY200_.jpg",
+    "local": "/assets/reference/945e1adcb20055b2.jpg"
+  },
+  {
+    "url": "https://m.media-amazon.com/images/I/61CGDIk7SEL._AC_SY200_.jpg",
+    "local": "/assets/reference/d4392442dfb110db.jpg"
+  },
+  {
+    "url": "https://m.media-amazon.com/images/I/61cUIJInYES._AC_SY200_.jpg",
+    "local": "/assets/reference/85aaa1e2a1470d90.jpg"
+  },
+  {
+    "url": "https://m.media-amazon.com/images/I/81VMo02DKoL._AC_SY200_.jpg",
+    "local": "/assets/reference/5d3cf45366feb564.jpg"
+  },
+  {
+    "url": "https://m.media-amazon.com/images/I/714VRmqcVmL._AC_SY200_.jpg",
+    "local": "/assets/reference/af11698d00ccf7b4.jpg"
+  },
+  {
+    "url": "https://m.media-amazon.com/images/I/71eWRYTIS5L._AC_SY200_.jpg",
+    "local": "/assets/reference/454460939c6d459a.jpg"
+  },
+  {
+    "url": "https://m.media-amazon.com/images/I/81n5m6Ulw-L._AC_SY200_.jpg",
+    "local": "/assets/reference/bda0d0b30d1ffc7b.jpg"
+  },
+  {
+    "url": "https://m.media-amazon.com/images/I/81+6huui9GL._AC_SY200_.jpg",
+    "local": "/assets/reference/f19c07c1990dbf13.jpg"
+  },
+  {
+    "url": "https://m.media-amazon.com/images/I/81VrmGXhZKL._AC_SY200_.jpg",
+    "local": "/assets/reference/331bcd7ba5b82a07.jpg"
+  },
+  {
+    "url": "https://images-na.ssl-images-amazon.com/images/G/01/AmazonExports/Fuji/2021/June/Fuji_Quad_Hat_1x._SY116_CB667159060_.jpg",
+    "local": "/assets/reference/14d4ecc4ed87b683.jpg"
+  },
+  {
+    "url": "https://images-na.ssl-images-amazon.com/images/G/01/AmazonExports/Fuji/2021/June/Fuji_Quad_Figure_1x._SY116_CB667159060_.jpg",
+    "local": "/assets/reference/66789d6ab1fe9905.jpg"
+  },
+  {
+    "url": "https://images-na.ssl-images-amazon.com/images/G/01/AmazonExports/Fuji/2021/June/Fuji_Quad_Apparel_1x._SY116_CB667159060_.jpg",
+    "local": "/assets/reference/bdaf957e8276af10.jpg"
+  },
+  {
+    "url": "https://images-na.ssl-images-amazon.com/images/G/01/AmazonExports/Fuji/2021/June/Fuji_Quad_Mug_1x._SY116_CB667159063_.jpg",
+    "local": "/assets/reference/77748f7f125db3cf.jpg"
+  },
+  {
+    "url": "https://images-na.ssl-images-amazon.com/images/G/01/AmazonExports/Events/2025/Q1DefectReduction/Fuji_Defect_Reduction_1x_Clothing._SY116_CB549022351_.jpg",
+    "local": "/assets/reference/6938765e159953cd.jpg"
+  },
+  {
+    "url": "https://images-na.ssl-images-amazon.com/images/G/01/AmazonExports/Events/2025/Q1DefectReduction/Fuji_Defect_Reduction_1x_Equipment._SY116_CB549022351_.jpg",
+    "local": "/assets/reference/4bcaecb91986cc37.jpg"
+  },
+  {
+    "url": "https://images-na.ssl-images-amazon.com/images/G/01/AmazonExports/Events/2025/Q1DefectReduction/Fuji_Defect_Reduction_1x_Trackers._SY116_CB549022351_.jpg",
+    "local": "/assets/reference/c84abc45d3c7831b.jpg"
+  },
+  {
+    "url": "https://images-na.ssl-images-amazon.com/images/G/01/AmazonExports/Events/2025/Q1DefectReduction/Fuji_Defect_Reduction_1x_Deals_Fitness._SY116_CB549022351_.jpg",
+    "local": "/assets/reference/6d06fd12fb426900.jpg"
+  },
+  {
+    "url": "https://images-na.ssl-images-amazon.com/images/G/01/AmazonExports/Events/2024/BAU2024Aug/WomenWatches_1x._SY116_CB564394432_.jpg",
+    "local": "/assets/reference/a0aa517f7d0f803e.jpg"
+  },
+  {
+    "url": "https://images-na.ssl-images-amazon.com/images/G/01/AmazonExports/Events/2024/BAU2024Aug/GirlWatches_1x._SY116_CB564394432_.jpg",
+    "local": "/assets/reference/34a6123442d40dd2.jpg"
+  },
+  {
+    "url": "https://images-na.ssl-images-amazon.com/images/G/01/AmazonExports/Events/2024/BAU2024Aug/BoyWatches_1x._SY116_CB564394432_.jpg",
+    "local": "/assets/reference/0570588e61329a69.jpg"
+  },
+  {
+    "url": "https://images-na.ssl-images-amazon.com/images/G/01/AmazonExports/Events/2024/BAU2024Aug/MenWatches_1x._SY116_CB564394432_.jpg",
+    "local": "/assets/reference/8020e47a983015ab.jpg"
+  },
+  {
+    "url": "https://images-na.ssl-images-amazon.com/images/G/01/AmazonExports/Events/2024/DskBTFQuadCards/Fuji_BTF_Quad_Cards_1x_Hard_Drives._SY116_CB558654384_.jpg",
+    "local": "/assets/reference/311b1fe5fdcace0f.jpg"
+  },
+  {
+    "url": "https://images-na.ssl-images-amazon.com/images/G/01/AmazonExports/Events/2024/DskBTFQuadCards/Fuji_BTF_Quad_Cards_1x_laptop._SY116_CB558654384_.jpg",
+    "local": "/assets/reference/b3b836eb9d570172.jpg"
+  },
+  {
+    "url": "https://images-na.ssl-images-amazon.com/images/G/01/AmazonExports/Events/2024/DskBTFQuadCards/Fuji_BTF_Quad_Cards_1x_Desktops._SY116_CB558654384_.jpg",
+    "local": "/assets/reference/53bb2d426580677c.jpg"
+  },
+  {
+    "url": "https://images-na.ssl-images-amazon.com/images/G/01/AmazonExports/Events/2024/DskBTFQuadCards/Fuji_BTF_Quad_Cards_1x_Accessories._SY116_CB558654384_.jpg",
+    "local": "/assets/reference/ca820a9a1b53e468.jpg"
+  },
+  {
+    "url": "https://m.media-amazon.com/images/I/51NMLU5nJBL._AC_SY200_.jpg",
+    "local": "/assets/reference/92f40d16f71dc30d.jpg"
+  },
+  {
+    "url": "https://m.media-amazon.com/images/I/71E7t6HQ2DL._AC_SY200_.jpg",
+    "local": "/assets/reference/b73538653f7e7af0.jpg"
+  },
+  {
+    "url": "https://m.media-amazon.com/images/I/614YGaNBmUL._AC_SY200_.jpg",
+    "local": "/assets/reference/1f509ba700fd28f7.jpg"
+  },
+  {
+    "url": "https://m.media-amazon.com/images/I/61AgXmMH8zL._AC_SY200_.jpg",
+    "local": "/assets/reference/e821747c7dab6f93.jpg"
+  },
+  {
+    "url": "https://m.media-amazon.com/images/I/71r3gCD9y5L._AC_SY200_.jpg",
+    "local": "/assets/reference/2d122249875c1d09.jpg"
+  },
+  {
+    "url": "https://m.media-amazon.com/images/I/714rPh58v5L._AC_SY200_.jpg",
+    "local": "/assets/reference/a3a523cdd5153e2d.jpg"
+  },
+  {
+    "url": "https://m.media-amazon.com/images/I/41yUEFQNm2L._AC_SY200_.jpg",
+    "local": "/assets/reference/e6cb42a5ce7a2e56.jpg"
+  },
+  {
+    "url": "https://m.media-amazon.com/images/I/71Km-MVfzvL._AC_SY200_.jpg",
+    "local": "/assets/reference/0b93049189c1d89f.jpg"
+  },
+  {
+    "url": "https://m.media-amazon.com/images/I/51FCl+LNSAL._AC_SY200_.jpg",
+    "local": "/assets/reference/96c267d0767cc64b.jpg"
+  },
+  {
+    "url": "https://m.media-amazon.com/images/I/71Gf93EDYML._AC_SY200_.jpg",
+    "local": "/assets/reference/f1d56391a1faf86f.jpg"
+  },
+  {
+    "url": "https://m.media-amazon.com/images/I/71PNV23+hWL._AC_SY200_.jpg",
+    "local": "/assets/reference/a4d3c21e77587406.jpg"
+  },
+  {
+    "url": "https://m.media-amazon.com/images/I/71K00r5z4iL._AC_SY200_.jpg",
+    "local": "/assets/reference/bdfdd0e4300e2870.jpg"
+  },
+  {
+    "url": "https://m.media-amazon.com/images/I/51QXqomzfdL._AC_SY200_.jpg",
+    "local": "/assets/reference/8448a14b1da06783.jpg"
+  },
+  {
+    "url": "https://m.media-amazon.com/images/I/51HbD2W7FtL._AC_SY200_.jpg",
+    "local": "/assets/reference/51ceae917b1bc4af.jpg"
+  },
+  {
+    "url": "https://images-na.ssl-images-amazon.com/images/G/01/AmazonExports/Events/2025/Q1DefectReduction/Fuji_Defect_Reduction_1x_Books._SY116_CB549022351_.jpg",
+    "local": "/assets/reference/f806a7aed4925070.jpg"
+  },
+  {
+    "url": "https://images-na.ssl-images-amazon.com/images/G/01/AmazonExports/Events/2025/Q1DefectReduction/Fuji_Defect_Reduction_1x_Desktops._SY116_CB549022351_.jpg",
+    "local": "/assets/reference/59f62bc9e9953c91.jpg"
+  },
+  {
+    "url": "https://images-na.ssl-images-amazon.com/images/G/01/AmazonExports/Events/2025/Q1DefectReduction/Fuji_Defect_Reduction_1x_Fashion._SY116_CB549022351_.jpg",
+    "local": "/assets/reference/b2eb0a31612bba2b.jpg"
+  },
+  {
+    "url": "https://images-na.ssl-images-amazon.com/images/G/01/AmazonExports/Events/2025/Q1DefectReduction/Fuji_Defect_Reduction_1x_Beauty._SY116_CB549022351_.jpg",
+    "local": "/assets/reference/1a61cc11afe4a3d9.jpg"
+  },
+  {
+    "url": "https://images-na.ssl-images-amazon.com/images/G/01/DiscoTec/2024/CE/GamingWeek24/Homepage/DQC/CE24_SUM_GW_DQC_NW_GamingWeek_PC_v2_1x._SY116_CB558844445_.jpg",
+    "local": "/assets/reference/1f00662f2c41fe99.jpg"
+  },
+  {
+    "url": "https://images-na.ssl-images-amazon.com/images/G/01/DiscoTec/2024/CE/GamingWeek24/Homepage/DQC/CE24_SUM_GW_DQC_SW_GamingWeek_Sony_v2_1x._SY116_CB558844445_.jpg",
+    "local": "/assets/reference/1044f0abd1b0a9a4.jpg"
+  },
+  {
+    "url": "https://images-na.ssl-images-amazon.com/images/G/01/DiscoTec/2024/CE/GamingWeek24/Homepage/DQC/CE24_SUM_GW_DQC_SE_GamingWeek_Nintendo_v2_1x._SY116_CB558844445_.jpg",
+    "local": "/assets/reference/308a8232dbd7f66b.jpg"
+  },
+  {
+    "url": "https://images-na.ssl-images-amazon.com/images/G/01/DiscoTec/2024/CE/GamingWeek24/Homepage/DQC/CE24_SUM_GW_DQC_NE_GamingWeek_Xbox_v2_1x._SY116_CB558844445_.jpg",
+    "local": "/assets/reference/1915b416636972ea.jpg"
+  },
+  {
+    "url": "https://images-na.ssl-images-amazon.com/images/G/01/AmazonExports/Events/2024/BAU2024Sept/CleaningTool_1x._SY116_CB563137408_.jpg",
+    "local": "/assets/reference/16b1774f0a39e174.jpg"
+  },
+  {
+    "url": "https://images-na.ssl-images-amazon.com/images/G/01/AmazonExports/Events/2024/BAU2024Sept/HomeDecor_1x._SY116_CB563137408_.jpg",
+    "local": "/assets/reference/bfdccba0c1c78f8a.jpg"
+  },
+  {
+    "url": "https://images-na.ssl-images-amazon.com/images/G/01/AmazonExports/Events/2024/BAU2024Sept/Bedding_1x._SY116_CB563137408_.jpg",
+    "local": "/assets/reference/f7b17c908bddbe44.jpg"
+  },
+  {
+    "url": "https://images-na.ssl-images-amazon.com/images/G/01/AmazonExports/Events/2024/BAU2024Sept/HomeStorage_1x._SY116_CB563137408_.jpg",
+    "local": "/assets/reference/019d8609234b5bfc.jpg"
+  },
+  {
+    "url": "https://images-na.ssl-images-amazon.com/images/G/01/AmazonExports/Events/2024/DskBTFQuadCards/Fuji_BTF_Quad_Cards_1x_Kitchen._SY116_CB558654384_.jpg",
+    "local": "/assets/reference/79d09d346509aa4f.jpg"
+  },
+  {
+    "url": "https://images-na.ssl-images-amazon.com/images/G/01/AmazonExports/Events/2024/DskBTFQuadCards/Fuji_BTF_Quad_Cards_1x_Home_decor._SY116_CB558654384_.jpg",
+    "local": "/assets/reference/a82abedd503127bb.jpg"
+  },
+  {
+    "url": "https://images-na.ssl-images-amazon.com/images/G/01/AmazonExports/Events/2024/DskBTFQuadCards/Fuji_BTF_Quad_Cards_1x_Dining._SY116_CB558654384_.jpg",
+    "local": "/assets/reference/834d20af59880114.jpg"
+  },
+  {
+    "url": "https://images-na.ssl-images-amazon.com/images/G/01/AmazonExports/Events/2024/DskBTFQuadCards/Fuji_BTF_Quad_Cards_1x_Smart_home._SY116_CB558654384_.jpg",
+    "local": "/assets/reference/876c2616cc6fd466.jpg"
+  },
+  {
+    "url": "https://m.media-amazon.com/images/I/71wGv7Fh2AL._AC_SY200_.jpg",
+    "local": "/assets/reference/fcfe817a92df7429.jpg"
+  },
+  {
+    "url": "https://m.media-amazon.com/images/I/61CxVoRr7BL._AC_SY200_.jpg",
+    "local": "/assets/reference/6c37ccc8bbc60387.jpg"
+  },
+  {
+    "url": "https://m.media-amazon.com/images/I/616sd9yyK+L._AC_SY200_.jpg",
+    "local": "/assets/reference/846da6add69aa533.jpg"
+  },
+  {
+    "url": "https://m.media-amazon.com/images/I/61KWmht+ltL._AC_SY200_.jpg",
+    "local": "/assets/reference/f8bc42fd4cfad6dd.jpg"
+  },
+  {
+    "url": "https://m.media-amazon.com/images/I/712wdsCwBkL._AC_SY200_.jpg",
+    "local": "/assets/reference/125e26156ec0869a.jpg"
+  },
+  {
+    "url": "https://m.media-amazon.com/images/I/61Z1P3bGVXL._AC_SY200_.jpg",
+    "local": "/assets/reference/ed0fbda5dea195d6.jpg"
+  },
+  {
+    "url": "https://m.media-amazon.com/images/I/61aql3CeecL._AC_SY200_.jpg",
+    "local": "/assets/reference/9f4424bc26576cb5.jpg"
+  },
+  {
+    "url": "https://m.media-amazon.com/images/I/81l7AwlRcDL._AC_SY200_.jpg",
+    "local": "/assets/reference/5665b2c21855181a.jpg"
+  },
+  {
+    "url": "https://m.media-amazon.com/images/I/71CEj9AzUgL._AC_SY200_.jpg",
+    "local": "/assets/reference/9b17ae8ef49a4109.jpg"
+  },
+  {
+    "url": "https://m.media-amazon.com/images/I/71DxWxvCwlL._AC_SY200_.jpg",
+    "local": "/assets/reference/77d9935d3afc1b8f.jpg"
+  },
+  {
+    "url": "https://m.media-amazon.com/images/I/71xDrqyNzuL._AC_SY200_.jpg",
+    "local": "/assets/reference/054d71b682b3901f.jpg"
+  },
+  {
+    "url": "https://m.media-amazon.com/images/I/61cDv-4cL4L._AC_SY200_.jpg",
+    "local": "/assets/reference/f043e554751afd62.jpg"
+  },
+  {
+    "url": "https://m.media-amazon.com/images/I/41Mw3aUCUrL._AC_SY200_.jpg",
+    "local": "/assets/reference/81b14fcac35554eb.jpg"
+  },
+  {
+    "url": "https://m.media-amazon.com/images/I/51prbUuRLHL._AC_SY200_.jpg",
+    "local": "/assets/reference/b75b4f072f3a66dc.jpg"
+  },
+  {
+    "url": "https://m.media-amazon.com/images/I/71Z0LJPF5ML._AC_SY200_.jpg",
+    "local": "/assets/reference/5f8bc0c86a371f17.jpg"
+  },
+  {
+    "url": "https://m.media-amazon.com/images/I/61HHXRkRz6L._AC_SY200_.jpg",
+    "local": "/assets/reference/e2cfbe3d30d95e69.jpg"
+  },
+  {
+    "url": "https://m.media-amazon.com/images/I/81S7jJk9hxL._AC_SY200_.jpg",
+    "local": "/assets/reference/2284734ac85005ad.jpg"
+  },
+  {
+    "url": "https://m.media-amazon.com/images/I/71Mvspn5F4L._AC_SY200_.jpg",
+    "local": "/assets/reference/eff7ae1ed66bc84c.jpg"
+  },
+  {
+    "url": "https://m.media-amazon.com/images/I/71czYc6LSMS._AC_SY200_.jpg",
+    "local": "/assets/reference/82812387adb602f1.jpg"
+  },
+  {
+    "url": "https://m.media-amazon.com/images/I/71Xi7VrhcQL._AC_SY200_.jpg",
+    "local": "/assets/reference/024d8cf5b83bd197.jpg"
+  },
+  {
+    "url": "https://m.media-amazon.com/images/I/71wm42EtoNL._AC_SY200_.jpg",
+    "local": "/assets/reference/7503eed37f53269d.jpg"
+  },
+  {
+    "url": "https://m.media-amazon.com/images/I/61kFGLKfXIL._AC_SY200_.jpg",
+    "local": "/assets/reference/7ab951b5436ec2e1.jpg"
+  },
+  {
+    "url": "https://m.media-amazon.com/images/I/61SZv0sxiBL._AC_SY200_.jpg",
+    "local": "/assets/reference/449559260ad8402c.jpg"
+  },
+  {
+    "url": "https://m.media-amazon.com/images/I/61v3jWr-AlL._AC_SY200_.jpg",
+    "local": "/assets/reference/b0726c5ab1592846.jpg"
+  },
+  {
+    "url": "https://m.media-amazon.com/images/I/416Tso4DqlL._AC_SY200_.jpg",
+    "local": "/assets/reference/53384f007fcc0db0.jpg"
+  },
+  {
+    "url": "https://m.media-amazon.com/images/I/81tgAaVTpXL._AC_SY200_.jpg",
+    "local": "/assets/reference/fecbcdbc367d4423.jpg"
+  },
+  {
+    "url": "https://m.media-amazon.com/images/I/71WZluQTSeL._AC_SY200_.jpg",
+    "local": "/assets/reference/6d70fcd1cfecfc90.jpg"
+  },
+  {
+    "url": "https://m.media-amazon.com/images/I/51HDr5mqkGL._AC_SY200_.jpg",
+    "local": "/assets/reference/4be45aa5c6fc5cb1.jpg"
+  },
+  {
+    "url": "https://m.media-amazon.com/images/I/311JdFvhtVL._AC_SY200_.jpg",
+    "local": "/assets/reference/8cabdf641602ab3d.jpg"
+  },
+  {
+    "url": "https://m.media-amazon.com/images/I/615i1A5c+fL._AC_SY200_.jpg",
+    "local": "/assets/reference/c7ce9213f10e99c1.jpg"
+  },
+  {
+    "url": "https://m.media-amazon.com/images/I/410gXei0VaL._AC_SY200_.jpg",
+    "local": "/assets/reference/00137bb7aa34cb4a.jpg"
+  },
+  {
+    "url": "https://m.media-amazon.com/images/I/61fahDpTIjL._AC_SY200_.jpg",
+    "local": "/assets/reference/08c85d808a65a472.jpg"
+  },
+  {
+    "url": "https://m.media-amazon.com/images/I/61Eut3FkasL._AC_SY200_.jpg",
+    "local": "/assets/reference/8222f53b164c3428.jpg"
+  },
+  {
+    "url": "https://m.media-amazon.com/images/I/71EeTMv8GKL._AC_SY200_.jpg",
+    "local": "/assets/reference/dff5e3f3491428c2.jpg"
+  },
+  {
+    "url": "https://m.media-amazon.com/images/I/71Cr5MwpcKL._AC_SY200_.jpg",
+    "local": "/assets/reference/9f305d868bdf0787.jpg"
+  },
+  {
+    "url": "https://m.media-amazon.com/images/I/71Ve3f5iVIL._AC_SY200_.jpg",
+    "local": "/assets/reference/1962bf61655eeb1b.jpg"
+  },
+  {
+    "url": "https://m.media-amazon.com/images/I/61ilHxT4fzL._AC_SY200_.jpg",
+    "local": "/assets/reference/b22abd63486b7244.jpg"
+  },
+  {
+    "url": "https://m.media-amazon.com/images/I/61S3I96+BuL._AC_SY200_.jpg",
+    "local": "/assets/reference/18a048f759004db9.jpg"
+  },
+  {
+    "url": "https://m.media-amazon.com/images/I/61FQoG0LiLL._AC_SY200_.jpg",
+    "local": "/assets/reference/7c321f88615a3120.jpg"
+  },
+  {
+    "url": "https://m.media-amazon.com/images/I/71wxfxmRC5L._AC_SY200_.jpg",
+    "local": "/assets/reference/74dc5a47440d66a0.jpg"
+  },
+  {
+    "url": "https://m.media-amazon.com/images/I/41WKZB7cuCL._AC_SY200_.jpg",
+    "local": "/assets/reference/502503e85dcca140.jpg"
+  },
+  {
+    "url": "https://m.media-amazon.com/images/I/61pgSyIiraL._AC_SY200_.jpg",
+    "local": "/assets/reference/1f5eb50da36b2c95.jpg"
+  },
+  {
+    "url": "https://m.media-amazon.com/images/I/71ntKN7NoIL._AC_SY200_.jpg",
+    "local": "/assets/reference/e95867eee7550c9b.jpg"
+  },
+  {
+    "url": "https://m.media-amazon.com/images/I/716HuBmcRsL._AC_SY200_.jpg",
+    "local": "/assets/reference/e050bc0f95053c65.jpg"
+  },
+  {
+    "url": "https://m.media-amazon.com/images/I/61IDmW2n+5L._AC_SY200_.jpg",
+    "local": "/assets/reference/67e2a2cc3e70e148.jpg"
+  },
+  {
+    "url": "https://m.media-amazon.com/images/I/710gr9CLTKL._AC_SY200_.jpg",
+    "local": "/assets/reference/ef2d8db3cf68caf7.jpg"
+  },
+  {
+    "url": "https://m.media-amazon.com/images/I/61MXafCVF-L._AC_SY200_.jpg",
+    "local": "/assets/reference/e286dc29ccfc8ba6.jpg"
+  },
+  {
+    "url": "https://m.media-amazon.com/images/I/71SRrNMlH0L._AC_SY200_.jpg",
+    "local": "/assets/reference/e136319510d5d574.jpg"
+  },
+  {
+    "url": "https://m.media-amazon.com/images/I/61Q13fPs1lL._AC_SY200_.jpg",
+    "local": "/assets/reference/6140ce2b7a9c96b5.jpg"
+  },
+  {
+    "url": "https://m.media-amazon.com/images/I/91wgdLWJc2L._AC_SY200_.jpg",
+    "local": "/assets/reference/0c21138dc444ec31.jpg"
+  },
+  {
+    "url": "https://m.media-amazon.com/images/I/51ALuls6oZL._AC_SY200_.jpg",
+    "local": "/assets/reference/8a42d838492e53b3.jpg"
+  },
+  {
+    "url": "https://m.media-amazon.com/images/I/61lFO3NRrKL._AC_SY200_.jpg",
+    "local": "/assets/reference/84e791057a712c59.jpg"
+  },
+  {
+    "url": "https://m.media-amazon.com/images/I/613DoJGseAL._AC_SY200_.jpg",
+    "local": "/assets/reference/33ebe574edd82e5f.jpg"
+  },
+  {
+    "url": "https://m.media-amazon.com/images/I/61GzQfBa+lL._AC_SY200_.jpg",
+    "local": "/assets/reference/3d11f5dcd1146e42.jpg"
+  },
+  {
+    "url": "https://m.media-amazon.com/images/I/61SuPkDGYfL._AC_SY200_.jpg",
+    "local": "/assets/reference/a8e2ebc918f9cdc1.jpg"
+  },
+  {
+    "url": "https://m.media-amazon.com/images/I/71tg-6WKPbL._AC_SY200_.jpg",
+    "local": "/assets/reference/704c05343c53204c.jpg"
+  },
+  {
+    "url": "https://m.media-amazon.com/images/I/61eYZT1LYAL._AC_SY200_.jpg",
+    "local": "/assets/reference/8d9bfe28cb329379.jpg"
+  },
+  {
+    "url": "https://m.media-amazon.com/images/I/71CUmyhYe2L._AC_SY200_.jpg",
+    "local": "/assets/reference/3edb91a1073c90da.jpg"
+  },
+  {
+    "url": "https://m.media-amazon.com/images/I/71jOI43ommL._AC_SY200_.jpg",
+    "local": "/assets/reference/e7cea977e013cc77.jpg"
+  },
+  {
+    "url": "https://m.media-amazon.com/images/I/713ykHkGRJL._AC_SY200_.jpg",
+    "local": "/assets/reference/32a1a9202107eacc.jpg"
+  },
+  {
+    "url": "https://m.media-amazon.com/images/I/81x+b41M2gL._AC_SY200_.jpg",
+    "local": "/assets/reference/15ee94dcccbab404.jpg"
+  },
+  {
+    "url": "https://m.media-amazon.com/images/I/81NKNFKlBQL._AC_SY200_.jpg",
+    "local": "/assets/reference/8140eaf669658687.jpg"
+  },
+  {
+    "url": "https://m.media-amazon.com/images/I/51GFGSj-4wL._AC_SY200_.jpg",
+    "local": "/assets/reference/f4bf8710c900d212.jpg"
+  },
+  {
+    "url": "https://m.media-amazon.com/images/I/61opnzNAaFL._AC_SY200_.jpg",
+    "local": "/assets/reference/d9c0155d1f593e4e.jpg"
+  },
+  {
+    "url": "https://m.media-amazon.com/images/I/81sjJMsIhOL._AC_SY200_.jpg",
+    "local": "/assets/reference/fdd66de3b3b01c5e.jpg"
+  },
+  {
+    "url": "https://m.media-amazon.com/images/I/812WxRYZtGL._AC_SY200_.jpg",
+    "local": "/assets/reference/630a5aa116e550a6.jpg"
+  },
+  {
+    "url": "https://m.media-amazon.com/images/I/61q403pmagL._AC_SY200_.jpg",
+    "local": "/assets/reference/90c713ff159bb27e.jpg"
+  },
+  {
+    "url": "https://m.media-amazon.com/images/I/51QKSuXJhdL._AC_SY200_.jpg",
+    "local": "/assets/reference/af5e1deef93c9092.jpg"
+  },
+  {
+    "url": "https://m.media-amazon.com/images/I/71SWO2d3WcL._AC_SY200_.jpg",
+    "local": "/assets/reference/442f338041ee5be0.jpg"
+  },
+  {
+    "url": "https://m.media-amazon.com/images/I/61IxcsVycqL._AC_SY200_.jpg",
+    "local": "/assets/reference/b625a9c0b8b555a1.jpg"
+  },
+  {
+    "url": "https://m.media-amazon.com/images/I/713lnXyKmjL._AC_SY200_.jpg",
+    "local": "/assets/reference/f79bad61ba42629a.jpg"
+  },
+  {
+    "url": "https://m.media-amazon.com/images/I/71bnHYPTufL._AC_SY200_.jpg",
+    "local": "/assets/reference/3b0ae85089370b78.jpg"
+  },
+  {
+    "url": "https://m.media-amazon.com/images/I/61pQJkr3hYL._AC_SY200_.jpg",
+    "local": "/assets/reference/74a9178d7a1cee8f.jpg"
+  },
+  {
+    "url": "https://m.media-amazon.com/images/I/71j2kJ+5R7L._AC_SY200_.jpg",
+    "local": "/assets/reference/93fa3a8cb142ddd3.jpg"
+  },
+  {
+    "url": "https://m.media-amazon.com/images/I/71mqaEv2KRL._AC_SY200_.jpg",
+    "local": "/assets/reference/adf24c3253d0e20a.jpg"
+  },
+  {
+    "url": "https://m.media-amazon.com/images/I/71teKHysd9L._AC_SY200_.jpg",
+    "local": "/assets/reference/0564f3ef49aaab95.jpg"
+  },
+  {
+    "url": "https://m.media-amazon.com/images/I/81DrZwYzpmL._AC_SY200_.jpg",
+    "local": "/assets/reference/b38cb6e4812e2577.jpg"
+  },
+  {
+    "url": "https://m.media-amazon.com/images/I/81XPDrUh9sL._AC_SY200_.jpg",
+    "local": "/assets/reference/2ffd07470266a962.jpg"
+  },
+  {
+    "url": "https://m.media-amazon.com/images/I/61vaBfcibhL._AC_SY200_.jpg",
+    "local": "/assets/reference/c11510c7f1345b5a.jpg"
+  },
+  {
+    "url": "https://m.media-amazon.com/images/I/81yC3+wkGxL._AC_SY200_.jpg",
+    "local": "/assets/reference/b88483db0b9d9e52.jpg"
+  },
+  {
+    "url": "https://m.media-amazon.com/images/I/71LDkpTW5fL._AC_SY200_.jpg",
+    "local": "/assets/reference/bcf887d6d09bb3f7.jpg"
+  },
+  {
+    "url": "https://m.media-amazon.com/images/I/61aTsoK8cCL._AC_SY200_.jpg",
+    "local": "/assets/reference/a8bd24f82c9c7a16.jpg"
+  },
+  {
+    "url": "https://m.media-amazon.com/images/I/61m+fKy7wzL._AC_SY200_.jpg",
+    "local": "/assets/reference/e0efacf54974f402.jpg"
+  },
+  {
+    "url": "https://m.media-amazon.com/images/I/71H5CjOQEbL._AC_SY200_.jpg",
+    "local": "/assets/reference/c10d08192e6b5477.jpg"
+  },
+  {
+    "url": "https://m.media-amazon.com/images/I/61xk4XNRktL._AC_SY200_.jpg",
+    "local": "/assets/reference/cb7a6f2f97e0f57d.jpg"
+  },
+  {
+    "url": "https://m.media-amazon.com/images/I/71EDIWimfoL._AC_SY200_.jpg",
+    "local": "/assets/reference/1fd26123c80e6aac.jpg"
+  },
+  {
+    "url": "https://m.media-amazon.com/images/I/7128jlHgQpL._AC_SY200_.jpg",
+    "local": "/assets/reference/3059f2e841a9000a.jpg"
+  },
+  {
+    "url": "https://m.media-amazon.com/images/I/613W1uX+5ZL._AC_SY200_.jpg",
+    "local": "/assets/reference/67fafd9c4365cfe2.jpg"
+  },
+  {
+    "url": "https://m.media-amazon.com/images/I/71xZ+yMplgL._AC_SY200_.jpg",
+    "local": "/assets/reference/5abdbbdc66ab55d0.jpg"
+  },
+  {
+    "url": "https://m.media-amazon.com/images/I/81BLNoe9OlL._AC_SY200_.jpg",
+    "local": "/assets/reference/1de87001aefa2be4.jpg"
+  },
+  {
+    "url": "https://m.media-amazon.com/images/I/51L2WuVkQfL._AC_SY200_.jpg",
+    "local": "/assets/reference/3181d7f327c7ead9.jpg"
+  },
+  {
+    "url": "https://m.media-amazon.com/images/I/51nKMY3u+hL._AC_SY200_.jpg",
+    "local": "/assets/reference/d1bcf79a611a5a8e.jpg"
+  },
+  {
+    "url": "https://m.media-amazon.com/images/I/617bRi2T2LL._AC_SY200_.jpg",
+    "local": "/assets/reference/ebef204b9ca3160a.jpg"
+  },
+  {
+    "url": "https://m.media-amazon.com/images/I/81iT9DfMrhL._AC_SY200_.jpg",
+    "local": "/assets/reference/e636411ef07f8c09.jpg"
+  },
+  {
+    "url": "https://m.media-amazon.com/images/I/61K-mP1v85L._AC_SY200_.jpg",
+    "local": "/assets/reference/afc1d7bc4c7fe7c8.jpg"
+  },
+  {
+    "url": "https://m.media-amazon.com/images/I/612wkvlFOkL._AC_SY200_.jpg",
+    "local": "/assets/reference/c199965d1a0c350b.jpg"
+  },
+  {
+    "url": "https://m.media-amazon.com/images/I/71Ryl5xKbuL._AC_SY200_.jpg",
+    "local": "/assets/reference/645dd7e675e27447.jpg"
+  },
+  {
+    "url": "https://m.media-amazon.com/images/I/41WvKkakGoL._AC_SY200_.jpg",
+    "local": "/assets/reference/7b7891c7f3ca026a.jpg"
+  },
+  {
+    "url": "https://m.media-amazon.com/images/I/61ni2njZupL._AC_SY200_.jpg",
+    "local": "/assets/reference/dac8f6a86d2fe6b7.jpg"
+  },
+  {
+    "url": "https://m.media-amazon.com/images/I/61AfYlS-zhL._AC_SY200_.jpg",
+    "local": "/assets/reference/ef5e2626fef53fd3.jpg"
+  },
+  {
+    "url": "https://m.media-amazon.com/images/I/61yIyianx-L._AC_SY200_.jpg",
+    "local": "/assets/reference/7fc4e22b5039fbe1.jpg"
+  },
+  {
+    "url": "https://m.media-amazon.com/images/I/61+J7XulGrL._AC_SY200_.jpg",
+    "local": "/assets/reference/7dd5347b9e984ed6.jpg"
+  },
+  {
+    "url": "https://m.media-amazon.com/images/I/51wX5vhTB4L._AC_SY200_.jpg",
+    "local": "/assets/reference/28f3c4f845645186.jpg"
+  },
+  {
+    "url": "https://m.media-amazon.com/images/I/71cBfxUjyYL._AC_SY200_.jpg",
+    "local": "/assets/reference/18624130ce78ee9d.jpg"
+  },
+  {
+    "url": "https://m.media-amazon.com/images/I/61vVaUB12cL._AC_SY200_.jpg",
+    "local": "/assets/reference/95d962dff713b0b7.jpg"
+  },
+  {
+    "url": "https://m.media-amazon.com/images/I/81-7N-LhOoL._AC_SY200_.jpg",
+    "local": "/assets/reference/375990567f6f3679.jpg"
+  },
+  {
+    "url": "https://m.media-amazon.com/images/I/61DeeFwkrpL._AC_SY200_.jpg",
+    "local": "/assets/reference/83a8b6c36fa39cdd.jpg"
+  },
+  {
+    "url": "https://m.media-amazon.com/images/I/71nwcDS1+tL._AC_SY200_.jpg",
+    "local": "/assets/reference/e6a3cb3eedc1a62f.jpg"
+  },
+  {
+    "url": "https://m.media-amazon.com/images/I/81j2qQfvoxL._AC_SY200_.jpg",
+    "local": "/assets/reference/168d38f4b8692ecf.jpg"
+  },
+  {
+    "url": "https://m.media-amazon.com/images/I/51b70fRsDcL._AC_SY200_.jpg",
+    "local": "/assets/reference/dca2284cc70d4a2e.jpg"
+  },
+  {
+    "url": "https://m.media-amazon.com/images/I/71nzT-BzGZL._AC_SY200_.jpg",
+    "local": "/assets/reference/88cf99c458b912cf.jpg"
+  },
+  {
+    "url": "https://m.media-amazon.com/images/I/51gpc1r1PGL._AC_SY200_.jpg",
+    "local": "/assets/reference/ad21a1399dc0326f.jpg"
+  },
+  {
+    "url": "https://m.media-amazon.com/images/I/81aS5RPYV+L._AC_SY200_.jpg",
+    "local": "/assets/reference/7c55cd853ee91299.jpg"
+  },
+  {
+    "url": "https://m.media-amazon.com/images/I/71-zRmk4nRL._AC_SY200_.jpg",
+    "local": "/assets/reference/2d8e0386b93c3d3a.jpg"
+  },
+  {
+    "url": "https://m.media-amazon.com/images/I/41R4vNxhXtL._AC_SY200_.jpg",
+    "local": "/assets/reference/75fa86a3476c8e69.jpg"
+  },
+  {
+    "url": "https://m.media-amazon.com/images/I/81lQCqgoUNL._AC_SY200_.jpg",
+    "local": "/assets/reference/c33ca9accd78104f.jpg"
+  },
+  {
+    "url": "https://m.media-amazon.com/images/I/81lVwnCQSrL._AC_SY200_.jpg",
+    "local": "/assets/reference/03ed944eaf47aed4.jpg"
+  },
+  {
+    "url": "https://m.media-amazon.com/images/I/71NiOGb2ibL._AC_SY200_.jpg",
+    "local": "/assets/reference/ba1a90729beb5c9a.jpg"
+  },
+  {
+    "url": "https://m.media-amazon.com/images/I/715su4sjwDL._AC_SY200_.jpg",
+    "local": "/assets/reference/c0835512664c0be0.jpg"
+  },
+  {
+    "url": "https://m.media-amazon.com/images/I/717cXC1UQdL._AC_SY200_.jpg",
+    "local": "/assets/reference/b8fc136b239ba545.jpg"
+  },
+  {
+    "url": "https://m.media-amazon.com/images/I/81ITG922AIL._AC_SY200_.jpg",
+    "local": "/assets/reference/6f1f52810ae64f89.jpg"
+  },
+  {
+    "url": "https://m.media-amazon.com/images/I/71yfzd2M2wL._AC_SY200_.jpg",
+    "local": "/assets/reference/a1e98cb8a86c8a5f.jpg"
+  },
+  {
+    "url": "https://m.media-amazon.com/images/I/61UVPi1tYML._AC_SY200_.jpg",
+    "local": "/assets/reference/86ef73ce821c6f84.jpg"
+  },
+  {
+    "url": "https://m.media-amazon.com/images/I/61tlXxXiBZL._AC_SY200_.jpg",
+    "local": "/assets/reference/921596c42ef3dc4e.jpg"
+  },
+  {
+    "url": "https://m.media-amazon.com/images/I/71tsg-7mqHL._AC_SY200_.jpg",
+    "local": "/assets/reference/163c7339c0e9986b.jpg"
+  },
+  {
+    "url": "https://m.media-amazon.com/images/I/71dNwm+Vj8L._AC_SY200_.jpg",
+    "local": "/assets/reference/1f336b4cb9c58fbe.jpg"
+  },
+  {
+    "url": "https://m.media-amazon.com/images/I/91L5lRBjAEL._AC_SY200_.jpg",
+    "local": "/assets/reference/fcc015a042e9ec9f.jpg"
+  },
+  {
+    "url": "https://m.media-amazon.com/images/I/61DHKpPkGDL._AC_SY200_.jpg",
+    "local": "/assets/reference/964eda389a976bd0.jpg"
+  },
+  {
+    "url": "https://m.media-amazon.com/images/I/61-mTtLvQ6L._AC_SY200_.jpg",
+    "local": "/assets/reference/24a039031b50442b.jpg"
+  },
+  {
+    "url": "https://m.media-amazon.com/images/I/61oCbMGW57L._AC_SY200_.jpg",
+    "local": "/assets/reference/a339475957b52690.jpg"
+  },
+  {
+    "url": "https://m.media-amazon.com/images/I/81EcUzLN7FL._AC_SY200_.jpg",
+    "local": "/assets/reference/78eac883d0ed6047.jpg"
+  },
+  {
+    "url": "https://m.media-amazon.com/images/I/41jc+q+iy1L._SX1500_.jpg",
+    "local": "/assets/reference/e99e332f5799aed5.jpg"
+  },
+  {
+    "url": "https://m.media-amazon.com/images/I/512bU93rrIL._SX1500_.jpg",
+    "local": "/assets/reference/4cadc9e9b203ef60.jpg"
+  },
+  {
+    "url": "https://m.media-amazon.com/images/I/61p+AmQBgRL._SX1500_.jpg",
+    "local": "/assets/reference/4feeb464ccfd0aac.jpg"
+  },
+  {
+    "url": "https://m.media-amazon.com/images/I/71qcoYgEhzL._SX3000_.jpg",
+    "local": "/assets/reference/ba0a643ae5c32b0e.jpg"
+  },
+  {
+    "url": "https://m.media-amazon.com/images/I/71ROLBmB4AL._SX3000_.jpg",
+    "local": "/assets/reference/8b6861c8f69edb45.jpg"
+  },
+  {
+    "url": "https://m.media-amazon.com/images/I/619geyiQI5L._SX3000_.jpg",
+    "local": "/assets/reference/c9b9ee3fb2232cce.jpg"
+  },
+  {
+    "url": "https://m.media-amazon.com/images/I/61Yx5-N155L._SX3000_.jpg",
+    "local": "/assets/reference/e319297d016a5492.jpg"
+  },
+  {
+    "url": "https://m.media-amazon.com/images/G/01/gno/sprites/nav-sprite-global-2x-reorg-privacy._CB779528203_.png",
+    "local": "/assets/reference/a326bc9221fc0101.png"
+  }
+]
