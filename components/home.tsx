@@ -48,6 +48,14 @@ const patchedArtwork: Record<string, string> = {
   CARD_HomeEss_2: fromCatalog("ref-67"),
   CARD_HomeEss_3: fromCatalog("ref-68"),
   CARD_HomeEss_4: fromCatalog("ref-69"),
+  CARD_Beauty_1: fromCatalog("ref-51"),
+  CARD_Beauty_2: fromCatalog("ref-74"),
+  CARD_Beauty_3: fromCatalog("ref-75"),
+  CARD_Beauty_4: fromCatalog("ref-84"),
+  CARD_Deals_1: fromCatalog("1"),
+  CARD_Deals_2: fromCatalog("ref-13"),
+  CARD_Deals_3: fromCatalog("ref-34"),
+  CARD_Deals_4: fromCatalog("ref-40"),
 };
 export function referenceImage(part: string) { return Object.entries(patchedArtwork).find(([name]) => name.includes(part))?.[1] || fallbackImage; }
 export function Rail({title, department, deal = false}: {title: string; department?: string; deal?: boolean}) {
@@ -90,6 +98,8 @@ export default function Home() {
  <div className="home-card-grid">
  <Quad title="Have more fun with family" department="Toys & Games" label="Shop Toys & Games" items={[["CARD_Family_1","Plush toys","Toys & Games","Stuffed"],["CARD_Family_2","Ride-ons","Toys & Games","Outdoor Play"],["CARD_Family_3","Playsets","Toys & Games","Vehicles"],["CARD_Family_4","Giant plush","Toys & Games","Stuffed"]]}/>
  <Quad title="Shop for your home essentials" department="Home & Kitchen" label="Shop Home & Kitchen" items={[["CARD_HomeEss_1","Air quality","Home & Kitchen","Air Quality"],["CARD_HomeEss_2","Bath","Home & Kitchen","Bath"],["CARD_HomeEss_3","Bedding","Home & Kitchen","Bedding"],["CARD_HomeEss_4","Décor","Home & Kitchen","Décor"]]}/>
+ <Quad title="Level up your beauty routine" department="Beauty & Personal Care" label="Shop Beauty" items={[["CARD_Beauty_1","Personal care","Beauty & Personal Care"],["CARD_Beauty_2","Cleaning","Health & Household","Household"],["CARD_Beauty_3","Home comfort","Health & Household","Home Environment"],["CARD_Beauty_4","Wipes","Health & Household","Household"]]}/>
+ <Quad title="Deals on top categories" department="Electronics" label="See all deals" items={[["CARD_Deals_1","Electronics","Electronics","Audio"],["CARD_Deals_2","Kitchen","Kitchen & Dining"],["CARD_Deals_3","Toys","Toys & Games"],["CARD_Deals_4","Baby","Baby"]]}/>
  </div>
  <Rail title="Level up your everyday tech" department="Electronics"/></div>
  <section className="personalized"><h2>{store.name ? `Discover more, ${store.name}` : "See personalized recommendations"}</h2><Link className="yellow-button" href={store.name ? "/deals" : "/ap/signin"}>{store.name ? "Explore deals" : "Sign in"}</Link>{!store.name && <p>New customer? <Link href="/ap/register">Start here.</Link></p>}</section></div>;

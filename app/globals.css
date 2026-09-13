@@ -2092,6 +2092,35 @@ p {
   font-size: 28px;
   margin: 0 0 14px;
 }
+.qanda {
+  padding: 25px 20px;
+  max-width: 1450px;
+  margin: auto;
+}
+.qanda-list {
+  max-width: 780px;
+  border-top: 1px solid var(--line);
+}
+.qanda details {
+  border-bottom: 1px solid var(--line);
+  padding: 12px 0;
+}
+.qanda summary {
+  cursor: pointer;
+  font-size: 14px;
+  color: var(--link);
+}
+.qanda summary:hover {
+  color: #c7511f;
+}
+.qanda details p {
+  margin: 10px 0 4px;
+  font-size: 14px;
+}
+.qanda details small {
+  color: var(--muted);
+  font-size: 12px;
+}
 .customers-say {
   background: #f7fafa;
   border: 1px solid var(--line);
