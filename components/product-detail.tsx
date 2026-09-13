@@ -84,6 +84,25 @@ function ratingHistogram(rating: number) {
   return { 5: five, 4: four, 3: three, 2: two, 1: 100 - five - four - three - two };
 }
 
+const QUESTIONS = [
+  {
+    q: "Does this come with everything needed to use it out of the box?",
+    a: "Yes — it ships complete. Anything optional is listed under Product information.",
+  },
+  {
+    q: "How long does delivery usually take?",
+    a: "Standard delivery is free on eligible orders and the estimate is shown in the buy box before you order.",
+  },
+  {
+    q: "What is the return window?",
+    a: "30 days from delivery, through Your Orders.",
+  },
+  {
+    q: "Is this the current model?",
+    a: "Yes. The model number is listed in the Product information table on this page.",
+  },
+];
+
 const SENTIMENT = [
   "Quality",
   "Value for money",
@@ -441,6 +460,24 @@ export default function ProductDetail({ product }: { product: Product }) {
             <Lock /> No payment collected
           </span>
         </div>
+      </section>
+      <section id="questions" className="qanda">
+        <h2>Looking for specific info?</h2>
+        <div className="qanda-list">
+          {QUESTIONS.map((item, i) => (
+            <details key={i}>
+              <summary>{item.q}</summary>
+              <p>{item.a}</p>
+              <small>
+                Answered by Amazon · {(hashProductId(product.id) % 40) + 3} people
+                found this helpful
+              </small>
+            </details>
+          ))}
+        </div>
+        <Link className="link-text" href="/help?topic=Customer Service">
+          See more answered questions
+        </Link>
       </section>
       <section id="reviews" className="reviews">
         <h2>Customer reviews</h2>
