@@ -10,6 +10,19 @@ npm run dev        # http://127.0.0.1:3000
 npm run typecheck && npm test && npm run build
 ```
 
+## Deploy
+
+No environment variables, no database, no external services — the catalog is local
+JSON and all shopping state lives in `localStorage`. Any Next.js host works:
+
+```bash
+npx vercel --prod        # or: npm run build && npm start
+```
+
+`npm start` binds all interfaces (not just loopback), so container hosts like Railway,
+Render and Fly work without extra flags. The production build was smoke-tested on every
+route — all 200, with `/nope-404` correctly returning 404.
+
 ## The approach: measure, don't eyeball
 
 The interesting decision on this build was how to judge "does it look like Amazon."
