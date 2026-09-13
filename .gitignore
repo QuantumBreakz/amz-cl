@@ -1,0 +1,10 @@
+node_modules/
+.next/
+references/
+.env*
+!.env.example
+*.tsbuildinfo
+
+# python bytecode from capture hooks
+__pycache__/
+*.pyc
