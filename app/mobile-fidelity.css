@@ -1,0 +1,68 @@
+.app-banner {
+  display: none;
+}
+@media (max-width: 760px) {
+  .app-banner {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 10px;
+    background: #f0f2f2;
+  }
+}
+
+.hamburger-button {
+  display: none;
+}
+@media (max-width: 760px) {
+  .hamburger-button {
+    display: flex;
+    order: -1;
+  }
+}
+
+.mobile-location-bar {
+  display: none;
+}
+@media (max-width: 760px) {
+  .mobile-location-bar {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    width: 100%;
+    padding: 8px 12px;
+    background: #f0f2f2;
+    border: 0;
+    font-size: 13px;
+  }
+}
+
+@media (max-width: 760px) {
+  .subnav a:nth-last-child(-n + 3) {
+    display: flex !important;
+  }
+  .subnav {
+    overflow-x: auto;
+    flex-wrap: nowrap;
+    white-space: nowrap;
+  }
+}
+
+.promo-rail {
+  display: contents;
+}
+@media (max-width: 480px) {
+  .promo-rail {
+    display: flex;
+    overflow-x: auto;
+    scroll-snap-type: x mandatory;
+    gap: 12px;
+    margin: 0 -10px 10px;
+    padding: 0 10px 4px;
+  }
+  .promo-rail .home-card {
+    min-width: 78vw;
+    scroll-snap-align: start;
+    flex-shrink: 0;
+  }
+}
