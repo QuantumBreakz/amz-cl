@@ -2220,6 +2220,42 @@ p {
   background: #f7f7f7;
   font-weight: 700;
 }
+.select-all {
+  background: none;
+  border: 0;
+  color: var(--link);
+  font-size: 13px;
+  padding: 0 0 10px;
+}
+.select-all:hover {
+  color: #c7511f;
+  text-decoration: underline;
+}
+.yellow-button.disabled {
+  opacity: 0.55;
+  pointer-events: none;
+}
+.cart-recommendations {
+  background: #fff;
+  max-width: 1500px;
+  margin: 14px auto;
+  padding: 20px;
+}
+.cart-recommendation-grid {
+  display: grid;
+  grid-template-columns: repeat(5, minmax(0, 1fr));
+  gap: 18px;
+}
+@media (max-width: 1100px) {
+  .cart-recommendation-grid {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+  }
+}
+@media (max-width: 760px) {
+  .cart-recommendation-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}
 .sr-only {
   position: absolute;
   width: 1px;

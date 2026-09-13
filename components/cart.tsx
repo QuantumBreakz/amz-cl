@@ -1,13 +1,31 @@
 "use client";
 
 import Link from "next/link";
+import { useState } from "react";
 import { ChevronDown, Lock, ShoppingCart } from "lucide-react";
-import { productById, productUrl } from "@/lib/catalog";
-import { Price } from "./ui";
+import { productById, productUrl, products } from "@/lib/catalog";
+import { Price, ProductCard } from "./ui";
 import { useStore } from "./store";
 
 export default function CartPage() {
   const store = useStore();
+  // Amazon lets you deselect cart lines; the subtotal follows the selection.
+  // Tracked as an exclusion list so newly added items are selected by default.
+  const [deselected, setDeselected] = useState<string[]>([]);
+  const toggleOne = (id: string) =>
+    setDeselected((prev) =>
+      prev.includes(id) ? prev.filter((x) => x !== id) : [...prev, id],
+    );
+  const selectedLines = store.cart.filter((l) => !deselected.includes(l.id));
+  const allSelected = store.cart.length > 0 && selectedLines.length === store.cart.length;
+  const toggleAll = () =>
+    setDeselected(allSelected ? store.cart.map((l) => l.id) : []);
+  const selectedCount = selectedLines.reduce((n, l) => n + l.quantity, 0);
+  const selectedTotal = selectedLines.reduce((sum, l) => {
+    const p = productById(l.id);
+    return sum + (p ? Math.round(p.price * 100) * l.quantity : 0);
+  }, 0) / 100;
+
   if (!store.ready)
     return <div className="cart-loading">Loading your cart…</div>;
   if (!store.cart.length)
@@ -38,6 +56,9 @@ export default function CartPage() {
       <div className="cart-layout">
         <section className="cart-panel">
           <h1>Shopping Cart</h1>
+          <button className="select-all" onClick={toggleAll} type="button">
+            {allSelected ? "Deselect all items" : "Select all items"}
+          </button>
           <div className="cart-price-label">Price</div>
           {store.cart.map((line) => {
             const product = productById(line.id);
@@ -46,7 +67,8 @@ export default function CartPage() {
               <article className="cart-line" key={line.id}>
                 <input
                   type="checkbox"
-                  defaultChecked
+                  checked={!deselected.includes(line.id)}
+                  onChange={() => toggleOne(line.id)}
                   aria-label={`Select ${product.name}`}
                 />
                 <Link className="cart-image" href={productUrl(product.id)}>
@@ -111,8 +133,8 @@ export default function CartPage() {
             );
           })}
           <div className="cart-subtotal">
-            Subtotal ({store.count} {store.count === 1 ? "item" : "items"}):{" "}
-            <Price value={store.total} />
+            Subtotal ({selectedCount} {selectedCount === 1 ? "item" : "items"}):{" "}
+            <Price value={selectedTotal} />
           </div>
         </section>
         <aside className="subtotal-card">
@@ -124,13 +146,17 @@ export default function CartPage() {
             </p>
           </div>
           <div>
-            Subtotal ({store.count} {store.count === 1 ? "item" : "items"}):{" "}
-            <Price value={store.total} />
+            Subtotal ({selectedCount} {selectedCount === 1 ? "item" : "items"}):{" "}
+            <Price value={selectedTotal} />
           </div>
           <label>
             <input type="checkbox" /> This order contains a gift
           </label>
-          <Link className="yellow-button round" href="/checkout">
+          <Link
+            className={`yellow-button round ${selectedCount ? "" : "disabled"}`}
+            aria-disabled={selectedCount === 0}
+            href={selectedCount ? "/checkout" : "/cart"}
+          >
             Proceed to checkout
           </Link>
           <details>
@@ -142,7 +168,28 @@ export default function CartPage() {
         </aside>
       </div>
       <SavedItems />
+      <CartRecommendations />
     </div>
+  );
+}
+
+function CartRecommendations() {
+  const store = useStore();
+  const inCart = new Set(store.cart.map((l) => l.id));
+  const seedCategory = productById(store.cart[0]?.id ?? "")?.category;
+  const picks = products
+    .filter((p) => !inCart.has(p.id) && (!seedCategory || p.category === seedCategory))
+    .slice(0, 5);
+  if (!picks.length) return null;
+  return (
+    <section className="cart-recommendations">
+      <h2>Customers who bought items in your cart also bought</h2>
+      <div className="cart-recommendation-grid">
+        {picks.map((p) => (
+          <ProductCard key={p.id} product={p} />
+        ))}
+      </div>
+    </section>
   );
 }
 
