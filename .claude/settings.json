@@ -1,12 +1,12 @@
 {
-  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$schema": "https://json.schemastore.org/claude-code-settings.json",
   "hooks": {
     "UserPromptSubmit": [
       {
         "hooks": [
           {
             "type": "command",
-            "command": "python3 \"$CLAUDE_PROJECT_DIR/.claude/capture.py\" prompt",
+            "command": "python3 .claude/capture.py prompt",
             "timeout": 15
           }
         ]
@@ -17,7 +17,7 @@
         "hooks": [
           {
             "type": "command",
-            "command": "python3 \"$CLAUDE_PROJECT_DIR/.claude/capture.py\" response",
+            "command": "python3 .claude/capture.py response",
             "timeout": 20
           }
         ]

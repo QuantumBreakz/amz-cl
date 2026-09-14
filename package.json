@@ -1,25 +1,33 @@
 {
   "name": "amazon-assignment",
   "version": "1.0.0",
+  "author": "Ali Ahmed",
   "private": true,
+  "workspaces": [
+    "packages/*"
+  ],
   "scripts": {
     "dev": "next dev --hostname 127.0.0.1",
     "build": "next build",
     "start": "next start",
     "typecheck": "tsc --noEmit",
-    "test": "tsx --test tests/commerce.test.ts"
+    "test": "NODE_ENV=test tsx --test tests/*.test.ts packages/backend/test/*.test.ts",
+    "verify:capture": "node scripts/verify-capture.mjs",
+    "test:e2e": "playwright test",
+    "test:all": "npm run verify:capture && npm test && npm run test:e2e"
   },
   "dependencies": {
+    "lucide-react": "^0.577.0",
     "next": "^16.2.0",
     "react": "^19.2.0",
-    "react-dom": "^19.2.0",
-    "lucide-react": "^0.577.0"
+    "react-dom": "^19.2.0"
   },
   "devDependencies": {
-    "tsx": "^4.20.6",
-    "typescript": "^5.9.0",
+    "@playwright/test": "^1.61.0",
     "@types/node": "^22.0.0",
     "@types/react": "^19.2.0",
-    "@types/react-dom": "^19.2.0"
+    "@types/react-dom": "^19.2.0",
+    "tsx": "^4.20.6",
+    "typescript": "^5.9.0"
   }
 }

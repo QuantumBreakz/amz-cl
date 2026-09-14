@@ -1,4 +1,5 @@
 "use client";
+
 import {
   createContext,
   useCallback,
@@ -7,179 +8,201 @@ import {
   useMemo,
   useRef,
   useState,
-  ReactNode,
+  type ReactNode,
 } from "react";
 import { products } from "@/lib/catalog";
-import {
-  CartLine,
-  setQuantity,
-  subtotalCents,
-  validCart,
-} from "@/lib/commerce";
-export type Order = {
-  id: string;
-  date: string;
-  lines: CartLine[];
-  total: number;
-  name: string;
-  address: string;
-};
-type State = {
-  cart: CartLine[];
-  saved: string[];
-  orders: Order[];
-  name: string;
-  location: string;
-};
-const initial: State = {
+import { apiClient, type CommerceState, type Order } from "@/lib/api-client";
+import { setQuantity, subtotalCents } from "@/lib/commerce";
+
+export type { Order };
+
+const initial: CommerceState = {
   cart: [],
   saved: [],
   orders: [],
   name: "",
   location: "Pakistan",
+  language: "English",
+  user: null,
 };
+
+function errorMessage(reason: unknown) {
+  return reason instanceof Error
+    ? reason.message
+    : "The server could not save your changes.";
+}
+
 function useCommerceState() {
-  const [state, setState] = useState<State>(initial);
+  const [state, setState] = useState<CommerceState>(initial);
   const [ready, setReady] = useState(false);
   const [toast, setToast] = useState("");
+  const requestQueue = useRef<Promise<void>>(Promise.resolve());
+
   useEffect(() => {
-    try {
-      const raw = JSON.parse(
-        localStorage.getItem("amazon-assignment-v1") || "null",
-      );
-      if (raw && typeof raw === "object")
-        setState({
-          cart: validCart(raw.cart, products),
-          saved: Array.isArray(raw.saved)
-            ? raw.saved.filter(
-                (id: unknown) =>
-                  typeof id === "string" && products.some((p) => p.id === id),
-              )
-            : [],
-          orders: Array.isArray(raw.orders)
-            ? raw.orders
-                .filter(
-                  (o: Order) =>
-                    o &&
-                    typeof o.id === "string" &&
-                    typeof o.total === "number" &&
-                    // name/address are rendered directly; a non-string here
-                    // (crafted localStorage) would throw during render.
-                    typeof o.name === "string" &&
-                    typeof o.address === "string" &&
-                    typeof o.date === "string" &&
-                    Array.isArray(o.lines),
-                )
-                .map((o: Order) => ({
-                  ...o,
-                  lines: validCart(o.lines, products),
-                }))
-            : [],
-          name: typeof raw.name === "string" ? raw.name : "",
-          location:
-            typeof raw.location === "string" ? raw.location : "Pakistan",
-        });
-    } catch {}
-    setReady(true);
+    let active = true;
+    apiClient
+      .session()
+      .then((next) => active && setState(next))
+      .catch((reason) => active && setToast(errorMessage(reason)))
+      .finally(() => active && setReady(true));
+    return () => {
+      active = false;
+    };
   }, []);
+
   useEffect(() => {
-    if (ready)
-      try {
-        localStorage.setItem("amazon-assignment-v1", JSON.stringify(state));
-      } catch {
-        setToast(
-          "Your browser could not save changes. Keep this tab open to continue.",
-        );
-      }
-  }, [state, ready]);
-  useEffect(() => {
-    if (toast) {
-      const t = setTimeout(() => setToast(""), 3500);
-      return () => clearTimeout(t);
-    }
+    if (!toast) return;
+    const timeout = setTimeout(() => setToast(""), 3500);
+    return () => clearTimeout(timeout);
   }, [toast]);
+
+  const reconcile = useCallback(
+    (operation: () => Promise<CommerceState>) => {
+      requestQueue.current = requestQueue.current
+        .catch(() => undefined)
+        .then(async () => {
+          const next = await operation();
+          setState(next);
+        })
+        .catch(async (reason) => {
+          setToast(errorMessage(reason));
+          try {
+            setState(await apiClient.session());
+          } catch {}
+        });
+    },
+    [],
+  );
+
   // Derived values recompute only when the cart changes. subtotalCents does a
   // linear catalog lookup per line, so before this memo it ran O(lines x catalog)
-  // on every render. The memo is the whole fix, and deliberately the only one:
-  // measured against the 191-product catalog it costs 0.1 µs for a realistic cart
-  // and 1.9 µs at an implausible 50 lines. An indexed lookup would save nothing
-  // worth having and would cost lib/commerce.ts its purity.
+  // on every render. The memo is deliberately the complete optimization: the
+  // 191-product fixture and normal cart sizes do not justify an indexed cache in
+  // the pure commerce module.
   const total = useMemo(
     () => subtotalCents(state.cart, products) / 100,
     [state.cart],
   );
   const count = useMemo(
-    () => state.cart.reduce((n, l) => n + l.quantity, 0),
+    () => state.cart.reduce((sum, line) => sum + line.quantity, 0),
     [state.cart],
   );
 
-  // Stable identities: every action uses the functional setState form, so none
-  // of them need to close over current state and none need to be re-created.
-  const add = useCallback((id: string, qty = 1, color?: string) => {
-    setState((s) => ({
-      ...s,
-      cart: setQuantity(
-        s.cart,
-        id,
-        (s.cart.find((l) => l.id === id)?.quantity ?? 0) + qty,
-        products,
-        color,
-      ),
-    }));
-    setToast("Added to Cart");
+  const add = useCallback(
+    (id: string, quantity = 1, color?: string) => {
+      setState((current) => ({
+        ...current,
+        cart: setQuantity(
+          current.cart,
+          id,
+          (current.cart.find((line) => line.id === id)?.quantity ?? 0) + quantity,
+          products,
+          color,
+        ),
+      }));
+      setToast("Added to Cart");
+      reconcile(() => apiClient.addCart(id, quantity, color));
+    },
+    [reconcile],
+  );
+
+  const quantity = useCallback(
+    (id: string, nextQuantity: number) => {
+      setState((current) => ({
+        ...current,
+        cart: setQuantity(current.cart, id, nextQuantity, products),
+      }));
+      reconcile(() => apiClient.setCartLine(id, nextQuantity));
+    },
+    [reconcile],
+  );
+
+  const save = useCallback(
+    (id: string) => {
+      setState((current) => ({
+        ...current,
+        saved: [...new Set([...current.saved, id])],
+        cart: current.cart.filter((line) => line.id !== id),
+      }));
+      setToast("Saved for later");
+      reconcile(() => apiClient.saveItem(id));
+    },
+    [reconcile],
+  );
+
+  const unsave = useCallback(
+    (id: string) => {
+      setState((current) => ({
+        ...current,
+        saved: current.saved.filter((candidate) => candidate !== id),
+      }));
+      reconcile(() => apiClient.removeSavedItem(id));
+    },
+    [reconcile],
+  );
+
+  const setLocation = useCallback(
+    (location: string) => {
+      setState((current) => ({ ...current, location }));
+      reconcile(() => apiClient.updateProfile({ location }));
+    },
+    [reconcile],
+  );
+
+  const setName = useCallback(
+    (name: string) => {
+      setState((current) => ({ ...current, name }));
+      reconcile(() => apiClient.updateProfile({ name }));
+    },
+    [reconcile],
+  );
+
+  const setLanguage = useCallback(
+    (language: string) => {
+      setState((current) => ({ ...current, language }));
+      reconcile(() => apiClient.updateProfile({ language }));
+    },
+    [reconcile],
+  );
+
+  const authenticate = useCallback(
+    async (input: {
+      mode: "login" | "register";
+      name?: string;
+      email: string;
+      password: string;
+    }) => {
+      await requestQueue.current;
+      const next =
+        input.mode === "register"
+          ? await apiClient.register({
+              name: input.name ?? "",
+              email: input.email,
+              password: input.password,
+            })
+          : await apiClient.login({ email: input.email, password: input.password });
+      setState(next);
+      return next;
+    },
+    [],
+  );
+
+  const logout = useCallback(async () => {
+    await requestQueue.current;
+    const next = await apiClient.logout();
+    setState(next);
+    setToast("Signed out");
   }, []);
 
-  const quantity = useCallback((id: string, qty: number) => {
-    setState((s) => ({ ...s, cart: setQuantity(s.cart, id, qty, products) }));
-  }, []);
-
-  const save = useCallback((id: string) => {
-    setState((s) => ({
-      ...s,
-      saved: [...new Set([...s.saved, id])],
-      cart: s.cart.filter((l) => l.id !== id),
-    }));
-    setToast("Saved for later");
-  }, []);
-
-  const unsave = useCallback((id: string) => {
-    setState((s) => ({ ...s, saved: s.saved.filter((x) => x !== id) }));
-  }, []);
-
-  const login = useCallback((name: string) => {
-    setState((s) => ({ ...s, name }));
-  }, []);
-
-  const setLocation = useCallback((location: string) => {
-    setState((s) => ({ ...s, location }));
-  }, []);
-
-  // placeOrder must return the new id *synchronously* — the checkout redirects on
-  // it. So it cannot be computed inside the setState updater, which React may run
-  // later. A ref tracks the latest cart instead: fresh data, stable identity, and
-  // a synchronous return.
-  const cartRef = useRef(state.cart);
-  useEffect(() => {
-    cartRef.current = state.cart;
-  }, [state.cart]);
-
-  const placeOrder = useCallback((name: string, address: string) => {
-    const cart = cartRef.current;
-    if (!cart.length) return null;
-    const order: Order = {
-      id: `113-${Date.now().toString().slice(-7)}-${Math.floor(
-        Math.random() * 10000000,
-      )
-        .toString()
-        .padStart(7, "0")}`,
-      date: new Date().toISOString(),
-      lines: cart.map((x) => ({ ...x })),
-      total: subtotalCents(cart, products) / 100,
+  const placeOrder = useCallback(async (name: string, address: string) => {
+    await requestQueue.current;
+    const result = await apiClient.placeOrder({
       name,
       address,
-    };
-    setState((s) => ({ ...s, cart: [], orders: [order, ...s.orders] }));
-    return order.id;
+      idempotencyKey: crypto.randomUUID(),
+    });
+    setState(result.state);
+    return result.order.id;
   }, []);
 
   return useMemo(
@@ -194,14 +217,35 @@ function useCommerceState() {
       quantity,
       save,
       unsave,
-      login,
       setLocation,
+      setName,
+      setLanguage,
+      authenticate,
+      logout,
       placeOrder,
     }),
-    [state, ready, toast, total, count, add, quantity, save, unsave, login, setLocation, placeOrder],
+    [
+      state,
+      ready,
+      toast,
+      total,
+      count,
+      add,
+      quantity,
+      save,
+      unsave,
+      setLocation,
+      setName,
+      setLanguage,
+      authenticate,
+      logout,
+      placeOrder,
+    ],
   );
 }
+
 const Store = createContext<ReturnType<typeof useCommerceState> | null>(null);
+
 export function StoreProvider({ children }: { children: ReactNode }) {
   const store = useCommerceState();
   return (
@@ -215,8 +259,9 @@ export function StoreProvider({ children }: { children: ReactNode }) {
     </Store.Provider>
   );
 }
+
 export function useStore() {
-  const s = useContext(Store);
-  if (!s) throw new Error("StoreProvider missing");
-  return s;
+  const store = useContext(Store);
+  if (!store) throw new Error("StoreProvider missing");
+  return store;
 }

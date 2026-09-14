@@ -1,3 +1,10 @@
+Repository scope notice
+
+This license applies only to public/assets/amazon-logo.svg,
+public/assets/amazon-logo-light.svg (a color-modified derivative), and app/favicon.ico.
+It does not cover lib/catalog.json or another dataset in this repository. This complete
+notice is retained here and linked from the README Credits section.
+
 MIT License
 
 Copyright (c) 2021 Martin Velkov

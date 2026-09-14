@@ -33,7 +33,7 @@ export default function Checkout() {
   const [placing, setPlacing] = useState(false);
   useEffect(() => setName(store.name), [store.name]);
   // store.location is the pre-hydration default on first render, so adopt the
-  // persisted value once localStorage has loaded.
+  // server-backed value once the session request completes.
   useEffect(() => {
     if (!store.ready) return;
     const resolved = store.location.includes("US")
@@ -41,7 +41,7 @@ export default function Checkout() {
       : store.location;
     setCountry(COUNTRIES.includes(resolved) ? resolved : "United States");
   }, [store.ready, store.location]);
-  function submit(event: FormEvent) {
+  async function submit(event: FormEvent) {
     event.preventDefault();
     setError("");
     if (!store.cart.length) {
@@ -59,12 +59,17 @@ export default function Checkout() {
       return;
     }
     setPlacing(true);
-    store.login(name.trim());
-    const id = store.placeOrder(
-      name.trim(),
-      `${address.trim()}, ${city.trim()}, ${region.trim()} ${postal.trim()}, ${country}`,
-    );
-    if (id) router.push(`/order-confirmation?id=${encodeURIComponent(id)}`);
+    store.setName(name.trim());
+    try {
+      const id = await store.placeOrder(
+        name.trim(),
+        `${address.trim()}, ${city.trim()}, ${region.trim()} ${postal.trim()}, ${country}`,
+      );
+      router.push(`/order-confirmation?id=${encodeURIComponent(id)}`);
+    } catch (reason) {
+      setError(reason instanceof Error ? reason.message : "Unable to place your order.");
+      setPlacing(false);
+    }
   }
   if (!store.ready)
     return <div className="checkout-loading">Preparing checkout…</div>;

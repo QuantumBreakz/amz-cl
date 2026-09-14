@@ -100,7 +100,7 @@ export default function CartPage() {
                       }
                       aria-label={`Quantity for ${product.name}`}
                     >
-                      {Array.from({ length: 10 }, (_, i) => (
+                      {Array.from({ length: Math.max(10, line.quantity) }, (_, i) => (
                         <option key={i + 1} value={i + 1}>
                           Qty: {i + 1}
                         </option>

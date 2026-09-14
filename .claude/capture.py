@@ -16,6 +16,7 @@ import json
 import os
 import re
 import sys
+import time
 from datetime import datetime, timezone
 from pathlib import Path
 
@@ -31,7 +32,7 @@ def safe_session_id(value):
 REPO = Path(__file__).resolve().parent.parent
 LOGS = REPO / ".agent-logs"
 LEDGER = LOGS / ".ledger"
-AUTHOR = os.environ.get("AGENT_LOG_AUTHOR", "QuantumBreakz")
+AUTHOR = os.environ.get("AGENT_LOG_AUTHOR", "Ali Ahmed")
 PROJECT = REPO.name
 
 
@@ -172,7 +173,16 @@ def main():
     if mode == "prompt":
         append(session_id, "PROMPT", event.get("prompt", ""), transcript_model(transcript))
     elif mode == "response":
-        text, model = last_assistant_text(transcript)
+        # Stop can fire in the same event loop turn that flushes the final
+        # transcript record. Retry briefly so an automatic hook never drops a
+        # valid final response just because the file write is a few milliseconds late.
+        text, model = "", ""
+        for delay in (0, 0.05, 0.2, 0.5):
+            if delay:
+                time.sleep(delay)
+            text, model = last_assistant_text(transcript)
+            if text.strip():
+                break
         append(session_id, "RESPONSE", text, model, transcript)
 
 

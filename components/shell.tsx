@@ -12,7 +12,8 @@ import {
   Globe,
   ChevronRight,
 } from "lucide-react";
-import { products, searchUrl, categories } from "@/lib/catalog";
+import { searchUrl, categories } from "@/lib/catalog";
+import { apiClient } from "@/lib/api-client";
 import { useStore } from "./store";
 export function Modal({
   title,
@@ -76,6 +77,7 @@ export function Header() {
     [account, setAccount] = useState(false);
   const [department, setDepartment] = useState("");
   const [showAppBanner, setShowAppBanner] = useState(true);
+  const [suggestions, setSuggestions] = useState<string[]>([]);
   // The country select is a controlled input whose value is written straight back
   // via setLocation on "Done". Seeded with a literal it showed "Pakistan" even when
   // the stored location was something else, so simply opening the modal and
@@ -85,13 +87,36 @@ export function Header() {
     const resolved = s.location.includes("US ") ? "United States" : s.location;
     setCountry(COUNTRIES.includes(resolved) ? resolved : "Pakistan");
   }, [s.ready, s.location]);
-  const suggestions = [
-    ...new Set(
-      products
-        .filter((p) => `${p.name} ${p.category} ${p.subCategory}`.toLowerCase().includes(query.toLowerCase()) && (category === "All" || p.category === category))
-        .map((p) => p.name),
-    ),
-  ].slice(0, 5);
+  useEffect(() => {
+    const term = query.trim();
+    if (!term) {
+      setSuggestions([]);
+      return;
+    }
+    const controller = new AbortController();
+    const timeout = setTimeout(() => {
+      apiClient
+        .catalog(
+          {
+            q: term,
+            category: category === "All" ? undefined : category,
+            limit: 5,
+          },
+          controller.signal,
+        )
+        .then((result) =>
+          setSuggestions([...new Set(result.items.map((product) => product.name))]),
+        )
+        .catch((reason) => {
+          if (reason instanceof DOMException && reason.name === "AbortError") return;
+          setSuggestions([]);
+        });
+    }, 120);
+    return () => {
+      clearTimeout(timeout);
+      controller.abort();
+    };
+  }, [query, category]);
   useEffect(() => {
     setFocus(false);
     setAccount(false);
@@ -269,7 +294,11 @@ export function Header() {
                   {s.name && (
                     <button
                       onClick={() => {
-                        s.login("");
+                        void s.logout().catch((reason) =>
+                          s.notify(
+                            reason instanceof Error ? reason.message : "Unable to sign out.",
+                          ),
+                        );
                         setAccount(false);
                       }}
                     >

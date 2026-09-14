@@ -1,5 +1,8 @@
 node_modules/
 .next/
+.data/
+test-results/
+playwright-report/
 references/
 .env*
 !.env.example
