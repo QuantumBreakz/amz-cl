@@ -1,5 +1,5 @@
 "use client";
-import { useRef, useState } from "react";
+import { memo, useMemo, useRef, useState } from "react";
 import Link from "next/link";
 import { ChevronLeft, ChevronRight } from "lucide-react";
 import { products, productUrl, searchUrl, categories, productById } from "@/lib/catalog";
@@ -58,11 +58,17 @@ const patchedArtwork: Record<string, string> = {
   CARD_Deals_4: fromCatalog("ref-40"),
 };
 export function referenceImage(part: string) { return Object.entries(patchedArtwork).find(([name]) => name.includes(part))?.[1] || fallbackImage; }
-export function Rail({title, department, deal = false}: {title: string; department?: string; deal?: boolean}) {
+// memo + useMemo: Home owns the carousel `slide` state, so every arrow click
+// re-rendered all five rails and re-filtered the 191-product catalog each time.
+// Rail's props never change, so it should not re-render at all.
+export const Rail = memo(function Rail({title, department, deal = false}: {title: string; department?: string; deal?: boolean}) {
   const ref = useRef<HTMLDivElement>(null);
-  const list = products.filter(p => (!department || p.category === department) && (!deal || p.isDeal));
+  const list = useMemo(
+    () => products.filter(p => (!department || p.category === department) && (!deal || p.isDeal)),
+    [department, deal],
+  );
   return <section className={`rail-section ${deal ? "deals-rail" : ""}`}><div className="section-heading"><h2>{title}</h2><Link href={deal ? "/deals" : searchUrl("", department)}>See more</Link></div><div className="rail-wrap"><button className="rail-arrow left" aria-label={`Previous ${title}`} onClick={()=>ref.current?.scrollBy({left:-800,behavior:"smooth"})}><ChevronLeft/></button><div className="product-rail" ref={ref}>{list.map(p=>deal ? <ProductCard key={p.id} product={p} deal/> : <Link className="rail-image" key={p.id} href={productUrl(p.id)}><img src={p.images[0]} alt={p.name} loading="lazy"/></Link>)}</div><button className="rail-arrow right" aria-label={`Next ${title}`} onClick={()=>ref.current?.scrollBy({left:800,behavior:"smooth"})}><ChevronRight/></button></div></section>;
-}
+});
 type Tile = [image:string, label:string, department:string, query?:string];
 function Quad({title, items, label="See more", department}: {title:string;items:Tile[];label?:string;department:string}) {
   return <section className="home-card"><h2>{title}</h2><div className="quad-grid">{items.map(([image,label,category,query])=><Link key={label} href={searchUrl(query,category)}><div className="quad-image"><img src={referenceImage(image)} alt={label} loading="lazy"/></div><span>{label}</span></Link>)}</div><Link className="card-more" href={searchUrl("",department)}>{label}</Link></section>;

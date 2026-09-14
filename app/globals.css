@@ -408,6 +408,64 @@ p {
   border: 0;
   border-top: 1px solid #ddd;
 }
+/* Amazon's hamburger menu is a full-height panel flush to the left edge. The
+   `department-drawer` class was on the dialog but had no rule, so the shared
+   `.modal` geometry won and it floated centred with rounded corners. */
+.department-drawer {
+  inset: 0 auto 0 0;
+  width: min(365px, 88vw);
+  max-width: none;
+  height: 100%;
+  max-height: 100%;
+  margin: 0;
+  border-radius: 0;
+  display: flex;
+  flex-direction: column;
+  animation: drawer-in 220ms cubic-bezier(0.22, 0.61, 0.36, 1);
+}
+@keyframes drawer-in {
+  from {
+    transform: translateX(-100%);
+  }
+  to {
+    transform: translateX(0);
+  }
+}
+@media (prefers-reduced-motion: reduce) {
+  .department-drawer {
+    animation: none;
+  }
+}
+.department-drawer > header {
+  flex: none;
+  background: var(--nav2);
+  color: #fff;
+}
+.department-drawer > header button {
+  color: #fff;
+}
+.department-drawer .modal-content {
+  flex: 1;
+  overflow-y: auto;
+}
+/* Department rows are <button> while Trending/Help rows are <a>; only the
+   anchors were styled, so the departments rendered as default grey pills. */
+.drawer-content button:not(.drawer-back) {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  width: 100%;
+  padding: 11px 28px;
+  border: 0;
+  background: none;
+  color: #111;
+  font-size: 14px;
+  text-align: left;
+  cursor: pointer;
+}
+.drawer-content button:not(.drawer-back):hover {
+  background: #eaeded;
+}
 .divider-label {
   display: flex;
   align-items: center;
@@ -503,89 +561,6 @@ p {
 .home {
   background: var(--page);
 }
-.hero {
-  height: 600px;
-  max-width: 1500px;
-  margin: auto;
-  position: relative;
-  overflow: hidden;
-}
-.hero:after {
-  content: "";
-  position: absolute;
-  left: 0;
-  right: 0;
-  bottom: 0;
-  height: 260px;
-  background: linear-gradient(transparent, var(--page));
-  pointer-events: none;
-}
-.hero.mint {
-  background: linear-gradient(120deg, #c5f2ea, #effff9 56%, #a9e5d8);
-}
-.hero.peach {
-  background: linear-gradient(120deg, #ffe0cc, #fff7ee 55%, #f6bea7);
-}
-.hero.blue {
-  background: linear-gradient(120deg, #bfdef6, #f0f8ff 55%, #a8c8e6);
-}
-.hero-content {
-  position: absolute;
-  inset: 0;
-  color: #111;
-  display: flex;
-  padding: 55px 9% 180px;
-  align-items: center;
-}
-.hero-content:hover {
-  text-decoration: none;
-  color: #111;
-}
-.hero-copy {
-  width: 45%;
-  position: relative;
-  z-index: 2;
-}
-.hero-copy h1 {
-  font-size: 48px;
-  line-height: 1.03;
-  letter-spacing: -1px;
-  margin: 0 0 16px;
-}
-.hero-copy p {
-  font-size: 20px;
-}
-.hero-products {
-  flex: 1;
-  height: 100%;
-  position: relative;
-}
-.hero-product {
-  position: absolute;
-  object-fit: contain;
-  filter: drop-shadow(0 18px 20px #0003);
-}
-.hero-product-0 {
-  height: 88%;
-  width: 65%;
-  right: 12%;
-  top: 4%;
-  z-index: 2;
-}
-.hero-product-1 {
-  height: 54%;
-  width: 43%;
-  left: 0;
-  bottom: 2%;
-  transform: rotate(-6deg);
-}
-.hero-product-2 {
-  height: 45%;
-  width: 38%;
-  right: -2%;
-  bottom: 0;
-  transform: rotate(6deg);
-}
 .hero-arrow,
 .rail-arrow {
   position: absolute;
@@ -639,12 +614,6 @@ p {
   z-index: 5;
   padding: 0 20px 20px;
 }
-.regional-notice {
-  background: #fff;
-  padding: 12px;
-  text-align: center;
-  margin-bottom: 20px;
-}
 .home-card-grid {
   display: grid;
   grid-template-columns: repeat(4, 1fr);
@@ -690,8 +659,7 @@ p {
   object-fit: contain;
   mix-blend-mode: multiply;
 }
-.single-card-image,
-.lifestyle-image {
+.single-card-image {
   flex: 1;
   display: grid;
   place-items: center;
@@ -700,11 +668,6 @@ p {
 .single-card-image img {
   height: 275px;
   object-fit: contain;
-}
-.lifestyle-image img {
-  width: 100%;
-  height: 282px;
-  object-fit: cover;
 }
 .card-more {
   margin-top: auto;
@@ -816,9 +779,6 @@ p {
 }
 .deals-rail .product-card {
   min-width: 230px;
-}
-.secondary-cards {
-  margin-top: 20px;
 }
 .personalized {
   background: #fff;
@@ -980,32 +940,6 @@ p {
 }
 .results {
   padding: 16px 20px;
-}
-.results-header {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  border-bottom: 1px solid #ddd;
-  padding-bottom: 10px;
-}
-.results-header h1 {
-  font-size: 20px;
-  margin: 0;
-}
-.results-header select {
-  padding: 7px;
-  border: 1px solid #d5d9d9;
-  border-radius: 8px;
-  background: #f0f2f2;
-}
-.results-grid {
-  display: grid;
-  grid-template-columns: repeat(4, minmax(180px, 1fr));
-  gap: 18px;
-  padding: 20px 0;
-}
-.results-grid .product-card {
-  min-width: 0;
 }
 .empty-state,
 .not-found,
@@ -2408,9 +2342,6 @@ p {
   .buy-box {
     grid-column: 2/4;
   }
-  .results-grid {
-    grid-template-columns: repeat(3, 1fr);
-  }
   .recommendation-grid {
     grid-template-columns: repeat(3, 1fr);
   }
@@ -2434,9 +2365,6 @@ p {
   .footer-columns {
     padding-left: 7vw;
     padding-right: 7vw;
-  }
-  .hero-copy h1 {
-    font-size: 40px;
   }
 }
 @media (max-width: 900px) {
@@ -2499,38 +2427,6 @@ p {
   .home-content {
     padding: 0 10px;
   }
-  .hero {
-    height: 520px;
-  }
-  .hero-content {
-    padding: 20px 8% 180px;
-    align-items: flex-start;
-  }
-  .hero-copy {
-    width: 55%;
-    padding-top: 18px;
-  }
-  .hero-copy h1 {
-    font-size: 28px;
-  }
-  .hero-copy p {
-    font-size: 15px;
-  }
-  .hero-products {
-    position: absolute;
-    right: 0;
-    top: 20px;
-    width: 58%;
-    height: 230px;
-  }
-  .hero-product-0 {
-    height: 78%;
-    right: 5%;
-  }
-  .hero-product-1,
-  .hero-product-2 {
-    height: 35%;
-  }
   .hero-arrow {
     height: 160px;
     width: 35px;
@@ -2538,9 +2434,6 @@ p {
   .hero-arrow svg {
     width: 26px;
     height: 26px;
-  }
-  .regional-notice {
-    font-size: 12px;
   }
   .home-card-grid {
     grid-template-columns: 1fr 1fr;
@@ -2567,9 +2460,6 @@ p {
     height: 90px;
   }
   .single-card-image img {
-    height: 220px;
-  }
-  .lifestyle-image img {
     height: 220px;
   }
   .rail-section {
@@ -2642,10 +2532,6 @@ p {
   }
   .results {
     padding: 12px;
-  }
-  .results-grid {
-    grid-template-columns: repeat(2, 1fr);
-    gap: 10px;
   }
   .product-image {
     height: 165px;
@@ -2795,12 +2681,6 @@ p {
   }
   .quad-image {
     height: 125px;
-  }
-  .results-grid {
-    grid-template-columns: 1fr 1fr;
-  }
-  .results-grid .product-image {
-    height: 145px;
   }
   .detail-page {
     padding: 8px;
