@@ -60,6 +60,11 @@ function useCommerceState() {
                     o &&
                     typeof o.id === "string" &&
                     typeof o.total === "number" &&
+                    // name/address are rendered directly; a non-string here
+                    // (crafted localStorage) would throw during render.
+                    typeof o.name === "string" &&
+                    typeof o.address === "string" &&
+                    typeof o.date === "string" &&
                     Array.isArray(o.lines),
                 )
                 .map((o: Order) => ({
