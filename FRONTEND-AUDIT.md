@@ -9,13 +9,18 @@ code. Where a fix is claimed, the before/after numbers are given. Checks that
 found nothing are recorded too, so the negative results are auditable.
 
 **Audit date:** 2026-09-14 · **Commit:** `8e36367`
+**Last re-verified:** 2026-09-15 against `62f76ed` — every finding re-checked against
+current source. FE-07 was found during that re-check and is new.
+
+**Status key:** `RESOLVED` — fixed and re-confirmed in current source · `STILL OPEN` —
+real and unfixed · `WONT-FIX` — deliberate, reasoning kept alongside.
 **Scope:** `components/`, `app/`, and the three stylesheets (`globals.css`,
 `search-fidelity.css`, `mobile-fidelity.css`).
 
 ## Method
 
 Reading code reliably finds *missing* things and reliably misses *behavioural*
-things. Three of the five findings below are invisible in a diff:
+things. Several of the findings below are invisible in a diff:
 
 - **Render waste** cannot be seen in the DOM. React reconciliation produces
   byte-identical markup whether a component re-rendered or not, so the only way
@@ -33,7 +38,7 @@ things. Three of the five findings below are invisible in a diff:
 
 ## Findings
 
-### FE-01 — Store context value had unstable identity · **High** · FIXED
+### FE-01 — Store context value had unstable identity · **High** · RESOLVED
 
 **Where:** `components/store.tsx`
 
@@ -52,9 +57,12 @@ and the returned object in `useMemo`. All seven actions already used the
 functional `setState` form, so none needed to close over current state — their
 dependency arrays are genuinely empty rather than empty-by-omission.
 
+**Re-verified 2026-09-15.** `useMemo`/`useCallback` still wrap the derived values, the
+seven actions and the returned object in `components/store.tsx`.
+
 ---
 
-### FE-02 — `placeOrder` returned `null`, breaking the checkout redirect · **High** · FIXED
+### FE-02 — `placeOrder` returned `null`, breaking the checkout redirect · **High** · RESOLVED
 
 **Where:** `components/store.tsx`
 
@@ -70,9 +78,12 @@ tracks the latest cart instead — fresh data, stable identity, synchronous retu
 **Verified end to end:** cart → checkout → redirect fires, order total $202.96,
 cart cleared.
 
+**Re-verified 2026-09-15.** `cartRef` is still the source `placeOrder` reads from, kept
+in sync by its own effect.
+
 ---
 
-### FE-03 — Rails re-rendered on every carousel tick · **Medium** · FIXED
+### FE-03 — Rails re-rendered on every carousel tick · **Medium** · RESOLVED
 
 **Where:** `components/home.tsx`
 
@@ -90,9 +101,12 @@ re-filtered the 191-product catalog. `Rail`'s props never change.
 The instrumentation was removed after measuring; the A/B was run by toggling
 `memo` off and on so the baseline is real, not assumed.
 
+**Re-verified 2026-09-15.** `Rail` is still wrapped in `memo`, and no instrumentation
+remains in `components/home.tsx`.
+
 ---
 
-### FE-04 — Department drawer rendered as a centred dialog · **Medium** · FIXED
+### FE-04 — Department drawer rendered as a centred dialog · **Medium** · RESOLVED
 
 **Where:** `app/globals.css`, class applied in `components/shell.tsx`
 
@@ -110,9 +124,12 @@ long department list scrolling inside the panel and a slide-in transition that
 respects `prefers-reduced-motion`. Drill-down into a department (back button,
 heading, sub-links) verified intact at both breakpoints.
 
+**Re-verified 2026-09-15.** The `.department-drawer` rules are still present in
+`app/globals.css`.
+
 ---
 
-### FE-05 — Department rows rendered as grey pills · **Medium** · FIXED
+### FE-05 — Department rows rendered as grey pills · **Medium** · RESOLVED
 
 **Where:** `app/globals.css`, markup in `components/shell.tsx`
 
@@ -126,14 +143,67 @@ different ways at once. Department rows now match the anchor rows exactly —
 measured at 365px wide against the links' 365px, transparent background, no
 border, right-aligned chevron.
 
+**Re-verified 2026-09-15.** The `.drawer-content button:not(.drawer-back)` rule is still
+present.
+
 ---
 
-### FE-06 — Dead CSS · **Low** · FIXED
+### FE-06 — Dead CSS · **Low** · RESOLVED
 
 `.hero-product` and the `.results-grid` rules were left over from the grid
 layout that `/s` replaced with horizontal product rows. Removed; braces verified
 balanced. This follows an earlier pass that removed 35 dead rule blocks
 (167 lines).
+
+**Re-verified 2026-09-15.** Cross-reference re-run across all three stylesheets:
+**0 dead classes**, and the 8 unstyled marker classes below are unchanged.
+
+---
+
+### FE-07 — Location modal silently reset the saved country · **High** · RESOLVED
+
+**Where:** `components/shell.tsx`
+
+Found while re-checking the adopt-on-ready pattern across every component. `Checkout`
+and `Preferences` were the two known instances of the hydration footgun; this is a
+**third**, and it hid from a `useState(store.` grep because it was seeded with a literal
+rather than from the store:
+
+```tsx
+const [country, setCountry] = useState("Pakistan");   // never synced to s.location
+```
+
+That literal happens to equal the store's *default* location, so it looks correct until
+the user has actually saved a different one. The `<select>` is controlled by `country`,
+and "Done" writes it straight back via `s.setLocation(country)` — so **opening the modal
+and confirming, without touching anything, overwrote the real saved location.**
+
+**Reproduced** with `location: "Canada"` in `localStorage`:
+
+| | Header | Modal select | After clicking "Done" |
+|---|---|---|---|
+| Before | Canada | **Pakistan** | **Pakistan** — data lost |
+| After | Canada | Canada | Canada — preserved |
+
+**Fix.** The same adopt-on-ready effect used in Checkout and Preferences, plus the
+country list hoisted to a module constant so the `<select>` options and the effect's
+membership test cannot drift apart:
+
+```tsx
+useEffect(() => {
+  if (!s.ready) return;
+  const resolved = s.location.includes("US ") ? "United States" : s.location;
+  setCountry(COUNTRIES.includes(resolved) ? resolved : "Pakistan");
+}, [s.ready, s.location]);
+```
+
+The `"US "` branch handles the ZIP path, which stores `"US 90210"` rather than a country
+name — verified to resolve to "United States" rather than falling back.
+
+**Why it was missed originally.** The audit searched for state *seeded from a store
+value*. This was state that should have mirrored a store value but never referenced it,
+which is the same defect with no matching syntax. The generalised check is "controlled
+input whose value is written back to the store", not "`useState(store.x)`".
 
 ---
 
@@ -142,7 +212,7 @@ balanced. This follows an earlier pass that removed 35 dead rule blocks
 | Area | Method | Result |
 |---|---|---|
 | Rules of Hooks | scope-aware AST-style check (a naive line-based heuristic gave 4 false positives on files with multiple components, and was rewritten) | **0 violations** |
-| Effect dependencies | every `useEffect` inspected | all 9 have dependency arrays |
+| Effect dependencies | every `useEffect` inspected | all **10** have dependency arrays (was 9; FE-07 added one) |
 | Effect cleanup | timers/subscriptions traced | cleanups present on both effects that need one; no listeners or observers left attached |
 | Nested component definitions | searched for components declared inside render | none |
 | Missing/unstable `key` props | all 9 flagged `.map()` calls reviewed | all are data transforms, not element lists — 0 real issues |
@@ -160,6 +230,29 @@ design, not overflow. Recorded here because an automated overflow check will
 flag it again on the next audit.
 
 ---
+
+## Considered and deliberately not done: indexing the catalog lookup
+
+`subtotalCents` does a linear `catalog.find()` per cart line, so it is O(lines × catalog).
+The obvious "fix" is a `Map` index — and it is the wrong call here, so the decision is
+recorded rather than left for someone to re-discover.
+
+Measured against the real 191-product catalog:
+
+| Cart lines | Time per call |
+|---:|---:|
+| 3 | 0.12 µs |
+| 10 | 0.10 µs |
+| 25 | 0.32 µs |
+| 50 | 1.89 µs |
+
+Against a 16,667 µs frame budget, the *implausible* 50-line case costs about 0.01% of one
+frame — and since FE-01 it recomputes only when the cart changes, not per render. An
+index would save nothing measurable, and the only places to put it are module-level
+mutable state in `lib/commerce.ts` or an extra parameter threaded through every caller.
+`lib/commerce.ts` is the one pure, unit-tested module in the codebase; trading that for
+0.1 µs is a bad exchange. The rationale now lives in the comment above the `useMemo` in
+`components/store.tsx` so the note reads as settled rather than outstanding.
 
 ## Accepted: inert marker classes
 
