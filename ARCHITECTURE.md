@@ -61,9 +61,13 @@ work, and pass plain serialisable props down.
 | `/dp/[id]` | **Dynamic** | Route param → `productById`, `notFound()` on miss |
 | `/help` | **Dynamic** | Reads `?topic=` |
 | `/order-confirmation` | **Dynamic** | Reads `?id=` |
-| `/cart`, `/checkout`, `/orders`, `/account`, `/wishlist`, `/preferences`, `/deals`, `/ap/*` | Static shell | Content comes from client state after hydration |
+| `/deals` | **Dynamic** | Reads `?tab=` for the deal-category filters |
+| `/cart`, `/checkout`, `/orders`, `/account`, `/wishlist`, `/preferences`, `/ap/*` | Static shell | Content comes from client state after hydration |
 
-`next build` reports 16 routes: 11 prerendered static, 5 server-rendered on demand.
+`next build` reports **15 routes: 10 prerendered static (`○`), 5 server-rendered on
+demand (`ƒ`)** — the dynamic five being `/s`, `/dp/[id]`, `/help`, `/order-confirmation`
+and `/deals`. (The build also logs "16/16 static pages", which counts generated pages
+including `/_not-found`, not routes — the two numbers are not the same thing.)
 
 ### Client components (`"use client"`)
 
@@ -283,6 +287,8 @@ mobile) that visual review had missed.
 
 - **No environment variables. No secrets. No external services.** The app is fully
   self-contained, which is why deployment is a one-liner.
+- Runtime dependencies are exactly four: `next`, `react`, `react-dom`, `lucide-react`.
+  `npm audit --omit=dev` reports 0 vulnerabilities.
 - `next.config.ts` sets security headers (`X-Frame-Options`, `nosniff`,
   `Referrer-Policy`, `Permissions-Policy`, HSTS) and disables `X-Powered-By`.
   CSP is **production-only** — Next's dev server needs `eval` and an HMR websocket, and
