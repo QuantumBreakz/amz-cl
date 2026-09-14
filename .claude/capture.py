@@ -14,9 +14,19 @@ Prompts and responses are recorded verbatim. No truncation, no paraphrase.
 """
 import json
 import os
+import re
 import sys
 from datetime import datetime, timezone
 from pathlib import Path
+
+# session_id arrives as untrusted stdin JSON and is used to build a filename.
+# Without this, "../../.." escapes .agent-logs/ entirely (CWE-22).
+SAFE_ID = re.compile(r"^[A-Za-z0-9._-]{1,128}$")
+
+
+def safe_session_id(value):
+    value = (value or "").strip()
+    return value if SAFE_ID.match(value) and not value.startswith(".") else "unknown-session"
 
 REPO = Path(__file__).resolve().parent.parent
 LOGS = REPO / ".agent-logs"
@@ -156,7 +166,7 @@ def render(session_id):
 def main():
     mode = sys.argv[1] if len(sys.argv) > 1 else ""
     event = read_event()
-    session_id = event.get("session_id") or "unknown-session"
+    session_id = safe_session_id(event.get("session_id"))
     transcript = event.get("transcript_path", "")
 
     if mode == "prompt":
