@@ -1,6 +1,36 @@
 import type { NextConfig } from "next";
+import { existsSync, readFileSync } from "node:fs";
+import { join } from "node:path";
 
 const isDev = process.env.NODE_ENV === "development";
+
+if (process.env.NODE_ENV === "production") {
+  const forbiddenDirectory = join(process.cwd(), "public", "assets", "reference");
+  const forbiddenManifest = join(process.cwd(), "lib", "reference-assets.json");
+  const runtimeContentFiles = [
+    join(process.cwd(), "lib", "catalog.json"),
+    join(process.cwd(), "components", "home.tsx"),
+  ];
+  const violations = [
+    existsSync(forbiddenDirectory) && "public/assets/reference/ exists",
+    existsSync(forbiddenManifest) && "lib/reference-assets.json exists",
+    ...runtimeContentFiles.map((file) => {
+      if (!existsSync(file)) return false;
+      const source = readFileSync(file, "utf8");
+      return (
+        (source.includes("/assets/reference/") || source.includes("m.media-amazon.com")) &&
+        `${file.slice(process.cwd().length + 1)} references retired Amazon assets`
+      );
+    }),
+  ].filter(Boolean);
+
+  if (violations.length > 0) {
+    throw new Error(
+      `Production content-safety check failed:\n- ${violations.join("\n- ")}\n` +
+        "Use only original or properly licensed runtime imagery before building.",
+    );
+  }
+}
 
 /**
  * The app ships no security headers by default, so a deployed instance is
@@ -45,6 +75,7 @@ const securityHeaders = isDev
 
 const nextConfig: NextConfig = {
   poweredByHeader: false,
+  transpilePackages: ["@amazon-clone/backend"],
   async headers() {
     return [{ source: "/:path*", headers: securityHeaders }];
   },

@@ -24,19 +24,35 @@ export function AuthPage({ register = false }: { register?: boolean }) {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [error, setError] = useState("");
-  function submit(e: FormEvent) {
+  const [submitting, setSubmitting] = useState(false);
+  async function submit(e: FormEvent) {
     e.preventDefault();
-    const value = (register ? name : email.split("@")[0]).trim();
-    if (!value || !email.includes("@") || (register && password.length < 6)) {
+    if (
+      (register && name.trim().length < 2) ||
+      !email.includes("@") ||
+      password.length < (register ? 8 : 1)
+    ) {
       setError(
         register
-          ? "Enter your name, a valid email, and a password of at least 6 characters."
-          : "Enter a valid email address.",
+          ? "Enter your name, a valid email, and a password of at least 8 characters."
+          : "Enter your email address and password.",
       );
       return;
     }
-    store.login(value.replace(/\b\w/g, (c) => c.toUpperCase()));
-    router.push("/account");
+    setSubmitting(true);
+    setError("");
+    try {
+      await store.authenticate({
+        mode: register ? "register" : "login",
+        name: register ? name.trim() : undefined,
+        email: email.trim(),
+        password,
+      });
+      router.push("/account");
+    } catch (reason) {
+      setError(reason instanceof Error ? reason.message : "Unable to sign in.");
+      setSubmitting(false);
+    }
   }
   return (
     <div className="auth-page">
@@ -65,21 +81,26 @@ export function AuthPage({ register = false }: { register?: boolean }) {
             onChange={(e) => setEmail(e.target.value)}
           />
         </label>
-        {register && (
-          <label>
-            Password
-            <input
-              type="password"
-              value={password}
-              onChange={(e) => setPassword(e.target.value)}
-              placeholder="At least 6 characters"
-            />
-            <small>ⓘ Passwords must be at least 6 characters.</small>
-          </label>
-        )}
+        <label>
+          Password
+          <input
+            type="password"
+            value={password}
+            onChange={(e) => setPassword(e.target.value)}
+            placeholder={register ? "At least 8 characters" : undefined}
+            autoComplete={register ? "new-password" : "current-password"}
+          />
+          {register && <small>ⓘ Passwords must be at least 8 characters.</small>}
+        </label>
         {error && <div className="form-error">{error}</div>}
-        <button className="yellow-button">
-          {register ? "Create your Amazon account" : "Continue"}
+        <button className="yellow-button" disabled={submitting}>
+          {submitting
+            ? register
+              ? "Creating account…"
+              : "Signing in…"
+            : register
+              ? "Create your Amazon account"
+              : "Sign in"}
         </button>
         <p>
           By continuing, you agree to Amazon's{" "}
@@ -179,6 +200,23 @@ export function Account() {
   return (
     <div className="account-page">
       <h1>Your Account</h1>
+      {store.user && (
+        <div className="account-signin">
+          <p>
+            Signed in as <b>{store.user.email}</b>
+          </p>
+          <button
+            className="outline-button"
+            onClick={() =>
+              void store.logout().catch((reason) =>
+                store.notify(reason instanceof Error ? reason.message : "Unable to sign out."),
+              )
+            }
+          >
+            Sign out
+          </button>
+        </div>
+      )}
       {!store.name && (
         <div className="account-signin">
           <p>Sign in for your personalized account experience.</p>
@@ -279,13 +317,16 @@ const COUNTRIES = [
 
 export function Preferences() {
   const store = useStore();
-  const [language, setLanguage] = useState("English");
+  const [language, setLanguage] = useState(store.language);
   const [country, setCountry] = useState(store.location);
-  // store.location only becomes the persisted value after localStorage hydrates,
+  // store.location only becomes the server-backed value after session hydration,
   // so adopt it once ready — otherwise saving would overwrite it with the default.
   useEffect(() => {
     if (store.ready) setCountry(store.location);
   }, [store.ready, store.location]);
+  useEffect(() => {
+    if (store.ready) setLanguage(store.language);
+  }, [store.ready, store.language]);
   return (
     <div className="preferences-page">
       <h1>Language Settings</h1>
@@ -322,6 +363,7 @@ export function Preferences() {
         className="yellow-button"
         onClick={() => {
           store.setLocation(country);
+          store.setLanguage(language);
           store.notify("Preferences saved");
         }}
       >

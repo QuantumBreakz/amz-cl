@@ -12,7 +12,7 @@ const articles: Record<string, string[]> = {
   returns: [
     "Most items in this demo show a 30-day return window on the order and order-confirmation pages, mirroring how Amazon frames its real return policy.",
     "Because this is a portfolio project, choosing \"Buy it again\" or opening an order never triggers a real refund or replacement — the return window is shown for realism only.",
-    "If you're looking for the real Amazon return center, this demo doesn't connect to it; everything here stays local to your browser.",
+    "If you're looking for the real Amazon return center, this demo doesn't connect to it; demo state stays within this application's own backend.",
   ],
   prime: [
     "Prime membership on the real Amazon bundles fast shipping, Prime Video streaming, and other perks into one subscription.",
@@ -26,8 +26,8 @@ const articles: Record<string, string[]> = {
   ],
   privacy: [
     "The real Amazon's Privacy Notice explains what customer data it collects and how it's used.",
-    "This demo is far simpler: your cart, saved items, demo orders, and display name are written to your browser's local storage under one key and never leave your device.",
-    "There's no account database, no analytics, and no third-party sharing — clearing your browser's site data erases everything this app has stored.",
+    "This demo is far simpler: your cart, saved items, profile, account, and demo orders are stored by this application's backend and scoped to an opaque guest or signed-in session.",
+    "There is no analytics or third-party sharing in this repository. Passwords are salted and hashed, session cookies are HttpOnly, and no payment information is collected.",
   ],
   "customer service": [
     "On a real retail site, Customer Service is where you'd reach a support agent by chat, phone, or email.",
@@ -41,11 +41,11 @@ const articles: Record<string, string[]> = {
   ],
   shipping: [
     "Delivery dates shown throughout this demo, like the estimate on the checkout and order pages, are placeholders meant to resemble a real Amazon order timeline.",
-    "No item is actually packed or shipped — placing a demo order simply saves it to your browser so you can review it under Your Orders.",
+    "No item is actually packed or shipped — placing a demo order saves it to the application backend so you can review it under Your Orders.",
   ],
   secure: [
     "The real Amazon encrypts payment details end-to-end during checkout.",
-    "This demo goes a step further and never collects payment information at all — the checkout page states this directly, and \"Place your order\" only stores a demo order locally.",
+    "This demo goes a step further and never collects payment information at all — the checkout page states this directly, and \"Place your order\" only creates a demo order in this application's backend.",
   ],
 };
 const topicAliases: Record<string, string> = {
@@ -102,13 +102,13 @@ export default async function Help({
               <p>
                 This demo reproduces the customer-facing Amazon help experience. For
                 this assignment, all checkout, account, shipping, and order actions
-                stay safely inside your browser.
+                stay inside this demo application and never reach Amazon or a payment provider.
               </p>
               <h2>Quick answers</h2>
               <p>
                 You can explore the storefront, search and filter products, add
                 items to the cart, place a demo order, and view it under Your
-                Orders. No real purchase or account is created.
+                Orders. Accounts are local to this demo backend and no real purchase is created.
               </p>
             </>
           )}

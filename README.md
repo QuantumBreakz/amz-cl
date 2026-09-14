@@ -2,26 +2,32 @@
 
 A rebuild of the amazon.com desktop and mobile storefront: homepage, search/PLP,
 product detail, cart, checkout, order confirmation, order history, account, auth,
-deals and help. Next.js 16 (App Router), React 19, TypeScript, plain CSS.
+deals and help. The monorepo includes a typed commerce backend with guest sessions,
+credential authentication, cart and wishlist persistence, profile preferences,
+authoritative order creation, and actor-isolated order history. Next.js 16 (App Router),
+React 19, TypeScript, plain CSS.
 
 ```bash
 npm install
 npm run dev        # http://127.0.0.1:3000
-npm run typecheck && npm test && npm run build
+npm run typecheck && npm test && npm run test:e2e && npm run build
 ```
 
 ## Deploy
 
-No environment variables, no database, no external services — the catalog is local
-JSON and all shopping state lives in `localStorage`. Any Next.js host works:
+The catalog is local JSON and the included single-process backend persists to
+`.data/backend.json`. `AMAZON_BACKEND_DATA_FILE` can select another path or `:memory:`.
+The default adapter is intended for a local or single-instance technical demo:
 
 ```bash
 npx vercel --prod        # or: npm run build && npm start
 ```
 
-`npm start` binds all interfaces (not just loopback), so container hosts like Railway,
-Render and Fly work without extra flags. The production build was smoke-tested on every
-route — all 200, with `/nope-404` correctly returning 404.
+`npm start` binds all interfaces, so a single persistent container works without extra
+flags. Vercel uses ephemeral `/tmp`; state can disappear across cold starts or differ
+between instances. Use a durable transactional database and shared session store before
+relying on this backend in a multi-instance deployment. See
+[`docs/BACKEND.md`](./docs/BACKEND.md).
 
 ## The approach: measure, don't eyeball
 
@@ -90,8 +96,10 @@ Three of the defects above were found by scripted checks rather than looking:
 - **No fabricated product attributes.** Amazon's PLP carries category-specific facets
   (Connectivity, Battery Life, Water Resistance). Ours doesn't, because the catalog has
   no such fields and inventing them across 191 products would be fake depth.
-- **No real payments, auth, or backend.** Checkout creates a local demo order and
-  never requests payment details.
+- **No real payments.** Checkout creates a server-backed demo order and never requests
+  payment details. Authentication and sessions are implemented for the exercise; email
+  verification, password reset, rate limiting, and a production database are outside
+  the bundled single-process adapter.
 - **USD throughout.** Amazon geo-localises currency; simulating that is a rabbit hole
   with no payoff here.
 
@@ -106,7 +114,8 @@ are auditable too.
 - [FRONTEND-AUDIT.md](./FRONTEND-AUDIT.md) — render waste (36 wasted renders per
   carousel interaction → 0, measured), a drawer that silently rendered as a
   centred dialog because its class had no rule, hook lifecycle, and overflow.
-- [ARCHITECTURE.md](./ARCHITECTURE.md) — routes, data flow, and the state container.
+- [ARCHITECTURE.md](./ARCHITECTURE.md) — routes, server/client data flow, and persistence.
+- [docs/BACKEND.md](./docs/BACKEND.md) — API contract, cookies, invariants, and limits.
 
 ## Agent capture
 
@@ -120,6 +129,14 @@ caught, the pushback when I called something finished prematurely, and the pivot
 
 ## Attribution
 
-Reference lineage and image sourcing are documented in `docs/`. Amazon and its marks
-are trademarks of Amazon.com, Inc. This is an independent educational reconstruction;
-checkout creates local demo orders only.
+Ali Ahmed is the sole contributor and developer of this reconstruction. The complete
+content supply chain is documented in
+[docs/CONTENT-SOURCING.md](./docs/CONTENT-SOURCING.md).
+
+### Credits
+
+Three logo/favicon assets retain material from the MartsTech Amazon-clone reference
+under the MIT License; the complete required copyright and permission notice is in
+[docs/MartsTech-LICENSE.txt](./docs/MartsTech-LICENSE.txt). Amazon and its marks are
+trademarks of Amazon.com, Inc. This is an independent educational reconstruction;
+checkout creates demo orders only and never collects payment information.

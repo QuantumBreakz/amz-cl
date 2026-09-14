@@ -1,5 +1,10 @@
 # Codebase Snapshot
 
+> **Historical snapshot.** This file was generated before the 2026-09-15 content-
+> sourcing update and is retained as a review artifact. It is not regenerated
+> automatically. Current repository files, especially `docs/CONTENT-SOURCING.md`, are
+> authoritative when this snapshot differs from them.
+
 Full verbatim dump of every hand-written source file, in the order a reviewer
 should read them: configuration, then data, then state, then shell, then UI,
 then routes, then styles, then tests and tooling.
@@ -7129,7 +7134,7 @@ def safe_session_id(value):
 REPO = Path(__file__).resolve().parent.parent
 LOGS = REPO / ".agent-logs"
 LEDGER = LOGS / ".ledger"
-AUTHOR = os.environ.get("AGENT_LOG_AUTHOR", "QuantumBreakz")
+AUTHOR = os.environ.get("AGENT_LOG_AUTHOR", "Ali Ahmed")
 PROJECT = REPO.name
 
 

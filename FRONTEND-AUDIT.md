@@ -17,6 +17,10 @@ real and unfixed · `WONT-FIX` — deliberate, reasoning kept alongside.
 **Scope:** `components/`, `app/`, and the three stylesheets (`globals.css`,
 `search-fidelity.css`, `mobile-fidelity.css`).
 
+**Backend migration note (2026-09-15):** FE-07's reproduction records the former
+`localStorage` implementation. Commerce state now hydrates from `/api/v1/session`; the
+same adopt-on-ready fix remains necessary and has been retained for server hydration.
+
 ## Method
 
 Reading code reliably finds *missing* things and reliably misses *behavioural*
@@ -178,7 +182,7 @@ the user has actually saved a different one. The `<select>` is controlled by `co
 and "Done" writes it straight back via `s.setLocation(country)` — so **opening the modal
 and confirming, without touching anything, overwrote the real saved location.**
 
-**Reproduced** with `location: "Canada"` in `localStorage`:
+**Originally reproduced** with `location: "Canada"` in the former `localStorage` store:
 
 | | Header | Modal select | After clicking "Done" |
 |---|---|---|---|

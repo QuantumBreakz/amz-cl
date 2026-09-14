@@ -1,148 +1,135 @@
-# Capture Test
+# 8x Assignment — Agent Capture Test
 
-## 1. Setup
+This file records the capture setup and the evidence used to verify it. The
+assignment requires the prompt and final response only, copied verbatim, with an
+automatic capture mechanism and a second-session check.
 
-| | |
+## 1. Setup used for this submission
+
+| Item | Verified value |
 |---|---|
-| **Tool** | Claude Code (desktop app, Code tab) |
-| **Models** | `claude-sonnet-5` and `claude-opus-5` — switched mid-build via `/model`. Both appear in the log; the switch is visible at entry 12. |
-| **Planning vs executing** | Same model does both. Planning used Claude Code's plan mode (`EnterPlanMode` → `ExitPlanMode`); sub-tasks were delegated to `Explore` / `Plan` / `general-purpose` subagents, which inherit the session model. |
-| **Automatic hook mechanism?** | Yes. Claude Code supports lifecycle hooks in `.claude/settings.json`. Verified against the settings JSON schema rather than assumed. |
+| Tool | Claude Code CLI v2.1.168, interactive terminal sessions |
+| Model | `claude-sonnet-4-6` for the two canary sessions below |
+| Planning/execution | The same Claude Code session handled planning and implementation; the canary sessions were fresh interactive sessions in this repository |
+| Automatic mechanism | Claude Code lifecycle hooks in `.claude/settings.json` |
 
-## 2. Mechanism
+The model names in the earlier historical session are preserved in the original
+log. The canary evidence below uses the model actually reported by Claude Code.
 
-Two lifecycle events wired to one script. Both fire on their own — nothing to remember.
+## 2. Automatic capture mechanism
 
-| Event | Fires | Captures |
+`.claude/settings.json` registers two hooks:
+
+| Event | Command | Captured value |
 |---|---|---|
-| `UserPromptSubmit` | Every prompt submitted | The prompt, verbatim, from the hook's stdin JSON |
-| `Stop` | End of every assistant turn | The final response text, read from the session transcript path the hook receives on stdin |
+| `UserPromptSubmit` | `python3 .claude/capture.py prompt` | Submitted prompt, verbatim |
+| `Stop` | `python3 .claude/capture.py response` | Final assistant text read from the transcript path supplied by Claude Code |
 
-**Files changed**
+`.claude/capture.py` appends JSONL entries to
+`.agent-logs/.ledger/<session-id>.jsonl` and renders the corresponding readable
+file under `.agent-logs/`. It skips tool calls and thinking blocks. The ledger is
+the append-only source of truth; no cleanup or rewriting is performed.
 
-- `.claude/settings.json` — hook registration (this is the config file the assignment asks about)
-- `.claude/capture.py` — the capture script
-- `.claude/backfill.py` — one-off recovery of turns that predate hook install (see §5)
+The response hook includes a bounded 0/50/200/500 ms retry because Claude Code can
+emit `Stop` just before the final transcript record is flushed. This keeps the
+automatic hook reliable without changing the captured text. Session IDs are
+validated before being used as filenames, preventing path traversal.
 
-**How the response is extracted.** The `Stop` hook receives `transcript_path`. The script walks the transcript backwards from the end, collecting `assistant` text blocks until it hits the `user` record that began the turn. Tool calls and thinking blocks are skipped, so the log holds the prompt and the final response only — nothing in between, as the brief requires.
+The settings file uses Claude Code's current schema URL and repository-relative
+commands. This was corrected after an initial interactive launch reported the old
+schema as invalid.
 
-**Storage.** Entries append to `.agent-logs/.ledger/<session-id>.jsonl`, which is the append-only source of truth. The human-readable `.md` is re-rendered from that ledger on each write, so rendering never mutates captured text.
+## 3. Log locations
 
-## 3. Log location
-
-```
-.agent-logs/2026-09-12_23-53-11_b66f2d37.md
-```
-
-`.agent-logs/` is committed and is **not** in `.gitignore` (verified).
-
-## 4. Canary status — LIVE AND CONFIRMED
-
-**The hooks fired on their own, unprompted, against real session traffic.** No manual step was needed and no canary had to be staged: within minutes of installation the ledger grew from the 40 backfilled entries to 42, adding two `RESPONSE` entries and one `PROMPT` entry captured automatically. Raw entries in §6.
-
-Note the install caveat that turned out not to bite: hooks were added mid-session, and Claude Code's settings watcher only watches directories that already had a settings file at session start. `.claude/` existed here (it held `launch.json`) but `settings.json` did not — the watcher picked it up regardless.
-
-**Second-session check.** A hook that only works in the session that created it is not installed. Because the hook command is registered in the project's `.claude/settings.json` and resolves via `$CLAUDE_PROJECT_DIR`, it is not bound to this session — any session opened in this repo loads it. To confirm on your machine: open a new Claude Code session here, send `CAPTURE TEST — 8x assignment, Ali Ahmed`, and a second `.md` keyed to that new session id will appear in `.agent-logs/`.
-
-### What was proven before live traffic arrived
-
-The script was pipe-tested with synthetic payloads in exactly the shape the hooks deliver, and the registration was schema-validated:
+The two fresh, automatically captured canaries are:
 
 ```
-$ jq -e '.hooks.UserPromptSubmit[].hooks[] | select(.type=="command") | .command' .claude/settings.json
-"python3 \"$CLAUDE_PROJECT_DIR/.claude/capture.py\" prompt"
-exit=0
-
-$ jq -e '.hooks.Stop[].hooks[] | select(.type=="command") | .command' .claude/settings.json
-"python3 \"$CLAUDE_PROJECT_DIR/.claude/capture.py\" response"
-exit=0
+.agent-logs/2026-09-14_21-17-00_58d7f0d7.md
+.agent-logs/2026-09-14_21-18-49_b7800103.md
 ```
 
-Pipe test output (multi-line prompt with quotes and `$`, to prove verbatim handling):
+Their append-only ledgers are:
 
 ```
-[LOG_ENTRY type=PROMPT num=1 session=pipetest]
-timestamp: 2026-09-13T23:39:19.041Z
-model: claude-opus-5
-
-PIPE TEST prompt line one
-second line with "quotes" and a $dollar
-
-
-[LOG_ENTRY type=RESPONSE num=1 session=pipetest]
-timestamp: 2026-09-13T23:39:19.073Z
-model: claude-opus-5
-
-Visible answer line one.
-Visible answer line two.
+.agent-logs/.ledger/58d7f0d7-c8f1-431d-ac4e-21d23920dc83.jsonl
+.agent-logs/.ledger/b7800103-c271-4497-8f07-4761ca7f036e.jsonl
 ```
 
-The fake transcript used for that test contained a `thinking` block and a `tool_use` block between the two text blocks; neither appears above, confirming the filter works.
+`.agent-logs/` is part of the repository deliverable and is not listed in
+`.gitignore`; add the generated files to the commit when publishing. Run
+`npm run verify:capture` to check the configuration and the two-session evidence.
 
-## 5. Backfill of earlier turns
+## 4. Canary verification
 
-The 20 turns that predate hook install were recovered from the transcript Claude Code had already written to `~/.claude/projects/<project>/<session>.jsonl`. `backfill.py` reconstructs the same ledger the live hook produces.
+Two separate interactive Claude Code sessions were opened after the hook fix. Each
+session submitted one prompt, received one exact response, and exited normally.
+Both the prompt and response appeared in `.agent-logs/` without manually invoking
+the capture script.
 
-Prompts and responses are copied **verbatim with their original recorded timestamps** — nothing reworded, reordered, or re-dated. Two things you can check to confirm:
+The raw entries are reproduced below exactly as rendered in the two log files:
 
-- Entry 4 reads `spin up the brwoser http://127.0.0.1:3000/` — the typo is preserved.
-- `model:` changes from `claude-sonnet-5` to `claude-opus-5` partway through, matching the real mid-build switch.
+```text
+[LOG_ENTRY type=PROMPT num=1 session=58d7f0d7]
+timestamp: 2026-09-14T21:17:00.489Z
+model: unknown
 
-Harness-injected user records (tool results, image metadata, skill payloads, slash-command echoes) are excluded via their structural `isMeta` flag, so the log holds real prompts only.
+CAPTURE TEST — 8x assignment, Ali Ahmed — retry session one. Reply exactly: capture retry one confirmed.
 
-## 6. Entries captured by the live hook
+[LOG_ENTRY type=RESPONSE num=1 session=58d7f0d7]
+timestamp: 2026-09-14T21:17:02.420Z
+model: claude-sonnet-4-6
 
-Pasted raw from `.agent-logs/.ledger/b66f2d37-….jsonl`, written automatically by the
-`Stop` and `UserPromptSubmit` hooks. Response bodies are long, so they are shown
-truncated **here only** — the log file itself stores them in full, untruncated.
-
-```
-[LOG_ENTRY type=RESPONSE num=21 session=b66f2d37]
-timestamp: 2026-09-13T23:44:52.268Z
-model: claude-opus-5
-
-I'll do all of it — but I'm not editing the recorded prompts, even slightly;
-"verbatim" is the one hard requirement in that brief. Everything else, starting now.
-[…full text in the log…]
-
-
-[LOG_ENTRY type=RESPONSE num=21 session=b66f2d37]
-timestamp: 2026-09-13T23:51:56.605Z
-model: claude-opus-5
-
-Done — everything except the prompt rewriting, which I left alone.
-[…full text in the log…]
-
-
-[LOG_ENTRY type=PROMPT num=21 session=b66f2d37]
-timestamp: 2026-09-13T23:55:02.091Z
-model: claude-opus-5
-
-continue fixing, make sure my timestamp is accurate to today, also ensure everything
-is catered for end to end, still a lot of things that are in backlog that we need tocater
+capture retry one confirmed.
 ```
 
-The prompt is stored exactly as typed — `tocater` unfixed — which is the point.
+```text
+[LOG_ENTRY type=PROMPT num=1 session=b7800103]
+timestamp: 2026-09-14T21:18:49.793Z
+model: unknown
 
-## 6a. A note on timestamps (UTC vs local)
+CAPTURE TEST — 8x assignment, Ali Ahmed — retry session two. Reply exactly: capture retry two confirmed.
 
-Timestamps are **UTC**, which is what the brief specifies. They can look "a day behind"
-because this machine runs at **+0500**:
+[LOG_ENTRY type=RESPONSE num=1 session=b7800103]
+timestamp: 2026-09-14T21:18:51.877Z
+model: claude-sonnet-4-6
 
-| | UTC (as logged) | Local (+0500) |
-|---|---|---|
-| First prompt | 2026-09-12T23:53:11Z | 2026-09-13 04:53 |
-| Last prompt | 2026-09-13T23:55:02Z | 2026-09-14 04:55 |
+capture retry two confirmed.
+```
 
-So the session began and ended in the small hours of local time, which is why the
-frontmatter `date:` reads 2026-09-12 while locally the work spans the 13th into the
-14th. Both are the same instants. The values are the real recorded ones and have not
-been shifted.
+The timestamps are UTC, as required by the brief. The local machine is UTC+05:00,
+so the displayed local date can differ while referring to the same instants.
 
-## 7. What didn't work first
+## 5. Earlier attempts and fixes
 
-**zsh mangled the first pipe test.** `echo '{"prompt":"line\nsecond"}'` looked like it proved the prompt hook was broken — the prompt path exited 0 and wrote nothing, three times running. The script was fine: zsh's builtin `echo` expands `\n` *inside single quotes*, which injected a real newline into the JSON string, made it invalid, and sent `read_event()` down its fallback path to `{}`. Switching the payload to a file fixed it. Roughly fifteen minutes lost chasing a bug in the test harness.
+These attempts are documented so the evidence is reproducible rather than
+overstated:
 
-**Filename instability.** The `.md` filename was first derived from the earliest *prompt* timestamp. When a `RESPONSE` landed before any `PROMPT` (as in the isolated pipe test), adding the prompt later shifted that timestamp and rendered a second file, orphaning the first. Now keyed off the first entry of any type, which never changes.
+- Two non-interactive `claude -p` canaries produced Claude transcripts but did not
+  run project lifecycle hooks. They were not counted as automatic capture evidence.
+- The first interactive pair captured prompts, but the `Stop` event raced the final
+  transcript flush. One response was recovered by a direct script invocation while
+  diagnosing the race; that recovery is not claimed as automatic evidence.
+- The response retry described in §2 was then added, and the two fresh sessions in
+  §4 captured both sides automatically.
+- An invalid settings schema was reported by Claude Code and corrected before the
+  fresh pair was run.
 
-**A too-broad `sed` while debugging.** An attempt to strip the script's catch-all `except` also matched the `except` inside `read_event()`, and a debug copy placed in `/tmp` silently wrote its output to `/tmp/.agent-logs/` because the script derives the repo root from `__file__`. Both wasted a cycle before the real cause surfaced.
+The original historical session and its genuine timestamps remain in
+`.agent-logs/2026-09-12_23-53-11_b66f2d37.md`; no entries were backdated or
+paraphrased. The older session contains the model switch and the real development
+prompts that predate hook installation.
+
+## 6. Assignment submission checklist
+
+The repository-side capture requirement is complete. Before submitting the
+assignment, fill in the two externally hosted deliverables and record them here:
+
+- [ ] Live deployed URL: `________________________________`
+- [ ] Public repository URL: `________________________________`
+- [ ] Under-five-minute walkthrough recorded with camera on
+- [ ] Walkthrough demonstrates homepage, search/filtering, product detail, cart,
+      registration/login, checkout, and orders
+- [ ] Walkthrough identifies Ali Ahmed as the sole contributor/developer
+
+The live deployment, public-repository setting, and camera recording require the
+owner's hosting/GitHub accounts and cannot be fabricated by this local repository.

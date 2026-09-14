@@ -1,162 +1,227 @@
-[
-  [
-    "https://i.ibb.co/DP0x9Wp8/p1-1-1.webp",
-    "/assets/product-1-0.webp"
+{
+  "status": "retired-and-replaced",
+  "reviewedAt": "2026-09-15",
+  "reason": "ImgBB hosting did not establish a redistribution license for the uploaded product and category photography.",
+  "formerSourceCount": 40,
+  "formerSources": [
+    {
+      "url": "https://i.ibb.co/DP0x9Wp8/p1-1-1.webp",
+      "formerLocalPath": "/assets/product-1-0.webp",
+      "shipped": false
+    },
+    {
+      "url": "https://i.ibb.co/wF0m3Cgz/p1-1-2.webp",
+      "formerLocalPath": "/assets/product-1-1.webp",
+      "shipped": false
+    },
+    {
+      "url": "https://i.ibb.co/N6xYpQmw/p1-2.webp",
+      "formerLocalPath": "/assets/product-2-0.webp",
+      "shipped": false
+    },
+    {
+      "url": "https://i.ibb.co/zTj82LHQ/p1-3.webp",
+      "formerLocalPath": "/assets/product-3-0.webp",
+      "shipped": false
+    },
+    {
+      "url": "https://i.ibb.co/1tWfq3N8/p1-4.webp",
+      "formerLocalPath": "/assets/product-4-0.webp",
+      "shipped": false
+    },
+    {
+      "url": "https://i.ibb.co/s9TzHdzQ/p1-5.webp",
+      "formerLocalPath": "/assets/product-5-0.webp",
+      "shipped": false
+    },
+    {
+      "url": "https://i.ibb.co/DPR4Xcq9/p2-1-1.webp",
+      "formerLocalPath": "/assets/product-6-0.webp",
+      "shipped": false
+    },
+    {
+      "url": "https://i.ibb.co/W4TNq6D9/p2-1-2.webp",
+      "formerLocalPath": "/assets/product-6-1.webp",
+      "shipped": false
+    },
+    {
+      "url": "https://i.ibb.co/vSJzSLZ/p2-2-1.webp",
+      "formerLocalPath": "/assets/product-7-0.webp",
+      "shipped": false
+    },
+    {
+      "url": "https://i.ibb.co/BY26f6T/p2-2-2.webp",
+      "formerLocalPath": "/assets/product-7-1.webp",
+      "shipped": false
+    },
+    {
+      "url": "https://i.ibb.co/DZNqH22/p2-3-1.webp",
+      "formerLocalPath": "/assets/product-8-0.webp",
+      "shipped": false
+    },
+    {
+      "url": "https://i.ibb.co/sXPytJZ/p2-3-2.webp",
+      "formerLocalPath": "/assets/product-8-1.webp",
+      "shipped": false
+    },
+    {
+      "url": "https://i.ibb.co/qLj3LC3r/p2-4-1.webp",
+      "formerLocalPath": "/assets/product-9-0.webp",
+      "shipped": false
+    },
+    {
+      "url": "https://i.ibb.co/wZfgyMxP/p2-4-2.webp",
+      "formerLocalPath": "/assets/product-9-1.webp",
+      "shipped": false
+    },
+    {
+      "url": "https://i.ibb.co/Q3kmwcfq/p2-5-1.webp",
+      "formerLocalPath": "/assets/product-10-0.webp",
+      "shipped": false
+    },
+    {
+      "url": "https://i.ibb.co/prR2zsTk/p2-5-2.webp",
+      "formerLocalPath": "/assets/product-10-1.webp",
+      "shipped": false
+    },
+    {
+      "url": "https://i.ibb.co/Z69rM1qF/p3-1.jpg",
+      "formerLocalPath": "/assets/product-11-0.jpg",
+      "shipped": false
+    },
+    {
+      "url": "https://i.ibb.co/9f0ZPS0/p3-2.jpg",
+      "formerLocalPath": "/assets/product-12-0.jpg",
+      "shipped": false
+    },
+    {
+      "url": "https://i.ibb.co/GD2nLcb/p3-3.jpg",
+      "formerLocalPath": "/assets/product-13-0.jpg",
+      "shipped": false
+    },
+    {
+      "url": "https://i.ibb.co/KzSjFrmC/p3-4.jpg",
+      "formerLocalPath": "/assets/product-14-0.jpg",
+      "shipped": false
+    },
+    {
+      "url": "https://i.ibb.co/k2V2T02h/p3-5.jpg",
+      "formerLocalPath": "/assets/product-15-0.jpg",
+      "shipped": false
+    },
+    {
+      "url": "https://i.ibb.co/ZRrZGkC0/p2-4.webp",
+      "formerLocalPath": "/assets/product-16-0.webp",
+      "shipped": false
+    },
+    {
+      "url": "https://i.ibb.co/TD7LvtRF/p4-1.webp",
+      "formerLocalPath": "/assets/product-17-0.webp",
+      "shipped": false
+    },
+    {
+      "url": "https://i.ibb.co/XQ5TtwB/p4-3.webp",
+      "formerLocalPath": "/assets/product-18-0.webp",
+      "shipped": false
+    },
+    {
+      "url": "https://i.ibb.co/3YM833yB/p4-4.webp",
+      "formerLocalPath": "/assets/product-19-0.webp",
+      "shipped": false
+    },
+    {
+      "url": "https://i.ibb.co/TB9Pq66w/p4-5.webp",
+      "formerLocalPath": "/assets/product-20-0.webp",
+      "shipped": false
+    },
+    {
+      "url": "https://i.ibb.co/Gv1WbqHy/b1.jpg",
+      "formerLocalPath": "/assets/banners-1.jpg",
+      "shipped": false
+    },
+    {
+      "url": "https://i.ibb.co/gLvf9cFC/b2.jpg",
+      "formerLocalPath": "/assets/banners-2.jpg",
+      "shipped": false
+    },
+    {
+      "url": "https://i.ibb.co/HLFjt0pL/b3.jpg",
+      "formerLocalPath": "/assets/banners-3.jpg",
+      "shipped": false
+    },
+    {
+      "url": "https://i.ibb.co/WpN3bmZy/b4.jpg",
+      "formerLocalPath": "/assets/banners-4.jpg",
+      "shipped": false
+    },
+    {
+      "url": "https://i.ibb.co/JjVmSvdJ/b5.jpg",
+      "formerLocalPath": "/assets/banners-5.jpg",
+      "shipped": false
+    },
+    {
+      "url": "https://i.ibb.co/hJdcGrPY/c1.jpg",
+      "formerLocalPath": "/assets/categories-1.jpg",
+      "shipped": false
+    },
+    {
+      "url": "https://i.ibb.co/BKP9jc52/c1-1.webp",
+      "formerLocalPath": "/assets/category-1-1.webp",
+      "shipped": false
+    },
+    {
+      "url": "https://i.ibb.co/kVLMxyn3/c1-2.webp",
+      "formerLocalPath": "/assets/category-1-2.webp",
+      "shipped": false
+    },
+    {
+      "url": "https://i.ibb.co/4nx5JRkD/c1-3.webp",
+      "formerLocalPath": "/assets/category-1-3.webp",
+      "shipped": false
+    },
+    {
+      "url": "https://i.ibb.co/0p0fmDgc/c1-4.webp",
+      "formerLocalPath": "/assets/category-1-4.webp",
+      "shipped": false
+    },
+    {
+      "url": "https://i.ibb.co/gZZTZDRx/c2.jpg",
+      "formerLocalPath": "/assets/categories-2.jpg",
+      "shipped": false
+    },
+    {
+      "url": "https://i.ibb.co/sJD71VMm/c3.jpg",
+      "formerLocalPath": "/assets/categories-3.jpg",
+      "shipped": false
+    },
+    {
+      "url": "https://i.ibb.co/67VZRG4K/c4.jpg",
+      "formerLocalPath": "/assets/categories-4.jpg",
+      "shipped": false
+    },
+    {
+      "url": "https://i.ibb.co/272T7Y2Z/c5.jpg",
+      "formerLocalPath": "/assets/categories-5.jpg",
+      "shipped": false
+    }
   ],
-  [
-    "https://i.ibb.co/wF0m3Cgz/p1-1-2.webp",
-    "/assets/product-1-1.webp"
-  ],
-  [
-    "https://i.ibb.co/N6xYpQmw/p1-2.webp",
-    "/assets/product-2-0.webp"
-  ],
-  [
-    "https://i.ibb.co/zTj82LHQ/p1-3.webp",
-    "/assets/product-3-0.webp"
-  ],
-  [
-    "https://i.ibb.co/1tWfq3N8/p1-4.webp",
-    "/assets/product-4-0.webp"
-  ],
-  [
-    "https://i.ibb.co/s9TzHdzQ/p1-5.webp",
-    "/assets/product-5-0.webp"
-  ],
-  [
-    "https://i.ibb.co/DPR4Xcq9/p2-1-1.webp",
-    "/assets/product-6-0.webp"
-  ],
-  [
-    "https://i.ibb.co/W4TNq6D9/p2-1-2.webp",
-    "/assets/product-6-1.webp"
-  ],
-  [
-    "https://i.ibb.co/vSJzSLZ/p2-2-1.webp",
-    "/assets/product-7-0.webp"
-  ],
-  [
-    "https://i.ibb.co/BY26f6T/p2-2-2.webp",
-    "/assets/product-7-1.webp"
-  ],
-  [
-    "https://i.ibb.co/DZNqH22/p2-3-1.webp",
-    "/assets/product-8-0.webp"
-  ],
-  [
-    "https://i.ibb.co/sXPytJZ/p2-3-2.webp",
-    "/assets/product-8-1.webp"
-  ],
-  [
-    "https://i.ibb.co/qLj3LC3r/p2-4-1.webp",
-    "/assets/product-9-0.webp"
-  ],
-  [
-    "https://i.ibb.co/wZfgyMxP/p2-4-2.webp",
-    "/assets/product-9-1.webp"
-  ],
-  [
-    "https://i.ibb.co/Q3kmwcfq/p2-5-1.webp",
-    "/assets/product-10-0.webp"
-  ],
-  [
-    "https://i.ibb.co/prR2zsTk/p2-5-2.webp",
-    "/assets/product-10-1.webp"
-  ],
-  [
-    "https://i.ibb.co/Z69rM1qF/p3-1.jpg",
-    "/assets/product-11-0.jpg"
-  ],
-  [
-    "https://i.ibb.co/9f0ZPS0/p3-2.jpg",
-    "/assets/product-12-0.jpg"
-  ],
-  [
-    "https://i.ibb.co/GD2nLcb/p3-3.jpg",
-    "/assets/product-13-0.jpg"
-  ],
-  [
-    "https://i.ibb.co/KzSjFrmC/p3-4.jpg",
-    "/assets/product-14-0.jpg"
-  ],
-  [
-    "https://i.ibb.co/k2V2T02h/p3-5.jpg",
-    "/assets/product-15-0.jpg"
-  ],
-  [
-    "https://i.ibb.co/ZRrZGkC0/p2-4.webp",
-    "/assets/product-16-0.webp"
-  ],
-  [
-    "https://i.ibb.co/TD7LvtRF/p4-1.webp",
-    "/assets/product-17-0.webp"
-  ],
-  [
-    "https://i.ibb.co/XQ5TtwB/p4-3.webp",
-    "/assets/product-18-0.webp"
-  ],
-  [
-    "https://i.ibb.co/3YM833yB/p4-4.webp",
-    "/assets/product-19-0.webp"
-  ],
-  [
-    "https://i.ibb.co/TB9Pq66w/p4-5.webp",
-    "/assets/product-20-0.webp"
-  ],
-  [
-    "https://i.ibb.co/Gv1WbqHy/b1.jpg",
-    "/assets/banners-1.jpg"
-  ],
-  [
-    "https://i.ibb.co/gLvf9cFC/b2.jpg",
-    "/assets/banners-2.jpg"
-  ],
-  [
-    "https://i.ibb.co/HLFjt0pL/b3.jpg",
-    "/assets/banners-3.jpg"
-  ],
-  [
-    "https://i.ibb.co/WpN3bmZy/b4.jpg",
-    "/assets/banners-4.jpg"
-  ],
-  [
-    "https://i.ibb.co/JjVmSvdJ/b5.jpg",
-    "/assets/banners-5.jpg"
-  ],
-  [
-    "https://i.ibb.co/hJdcGrPY/c1.jpg",
-    "/assets/categories-1.jpg"
-  ],
-  [
-    "https://i.ibb.co/BKP9jc52/c1-1.webp",
-    "/assets/category-1-1.webp"
-  ],
-  [
-    "https://i.ibb.co/kVLMxyn3/c1-2.webp",
-    "/assets/category-1-2.webp"
-  ],
-  [
-    "https://i.ibb.co/4nx5JRkD/c1-3.webp",
-    "/assets/category-1-3.webp"
-  ],
-  [
-    "https://i.ibb.co/0p0fmDgc/c1-4.webp",
-    "/assets/category-1-4.webp"
-  ],
-  [
-    "https://i.ibb.co/gZZTZDRx/c2.jpg",
-    "/assets/categories-2.jpg"
-  ],
-  [
-    "https://i.ibb.co/sJD71VMm/c3.jpg",
-    "/assets/categories-3.jpg"
-  ],
-  [
-    "https://i.ibb.co/67VZRG4K/c4.jpg",
-    "/assets/categories-4.jpg"
-  ],
-  [
-    "https://i.ibb.co/272T7Y2Z/c5.jpg",
-    "/assets/categories-5.jpg"
-  ]
-]
+  "replacements": {
+    "1-5": "/assets/original/generic-headphones.png",
+    "6-10": "/assets/original/generic-smartphone.png",
+    "11-15": "/assets/original/generic-menswear.png",
+    "16-20": "/assets/original/generic-womenswear.png",
+    "legacy banners and category fallback": "/assets/original/marketplace-assortment.png"
+  },
+  "provenance": {
+    "creator": "Ali Ahmed",
+    "method": "OpenAI built-in image generation",
+    "rightsNote": "Original, unbranded project artwork generated for this repository; no source image was supplied.",
+    "prompts": [
+      "Generic over-ear headphones on a white studio background; no logos or text.",
+      "Generic smartphone, front and rear views, on a white studio background; no logos or text.",
+      "Unbranded menswear flat lay; no logos or text.",
+      "Unbranded womenswear flat lay; no logos or text.",
+      "Generic marketplace assortment on a neutral studio set; no logos or text."
+    ]
+  }
+}
