@@ -1,142 +1,58 @@
-# Amazon.com rebuild
+# Amazon Storefront Clone
 
-A rebuild of the amazon.com desktop and mobile storefront: homepage, search/PLP,
-product detail, cart, checkout, order confirmation, order history, account, auth,
-deals and help. The monorepo includes a typed commerce backend with guest sessions,
-credential authentication, cart and wishlist persistence, profile preferences,
-authoritative order creation, and actor-isolated order history. Next.js 16 (App Router),
-React 19, TypeScript, plain CSS.
+A polished, responsive Amazon-inspired storefront built with Next.js, React,
+TypeScript, and a typed commerce backend. The experience covers the complete
+shopping journey from discovery through a server-backed demo order.
+
+## Product experience
+
+- Amazon-style homepage with department navigation, promotional modules, and product rails
+- Search with keyword matching, category and price filters, sorting, and pagination
+- Product detail pages with image gallery, variants, ratings, availability, and buy box
+- Persistent cart with quantity controls, line selection, recommendations, and totals
+- Checkout form with validation and authoritative server-side order creation
+- Account registration and sign-in with session-backed authentication
+- Wishlist and saved items that persist across reloads
+- Order confirmation and order history backed by the commerce API
+- Delivery location and profile preferences
+- Deals and help pages with responsive layouts
+- Desktop and mobile responsive behavior with Amazon-inspired typography, spacing, and controls
+
+## Run locally
 
 ```bash
 npm install
-npm run dev        # http://127.0.0.1:3000
-npm run typecheck && npm test && npm run test:e2e && npm run build
+npm run dev
 ```
 
-## Deploy
+Open [http://127.0.0.1:3000](http://127.0.0.1:3000).
 
-The catalog is local JSON and the included single-process backend persists to
-`.data/backend.json`. `AMAZON_BACKEND_DATA_FILE` can select another path or `:memory:`.
-The default adapter is intended for a local or single-instance technical demo:
+The app uses a local JSON data store at `.data/backend.json`. Set
+`AMAZON_BACKEND_DATA_FILE` to choose another file, or use `:memory:` for a
+disposable store.
+
+## Quality checks
 
 ```bash
-npx vercel --prod        # or: npm run build && npm start
+npm run typecheck
+npm test
+npm run test:e2e
+npm run build
 ```
 
-`npm start` binds all interfaces, so a single persistent container works without extra
-flags. Vercel uses ephemeral `/tmp`; state can disappear across cold starts or differ
-between instances. Use a durable transactional database and shared session store before
-relying on this backend in a multi-instance deployment. See
-[`docs/BACKEND.md`](./docs/BACKEND.md).
+## Main routes
 
-## The approach: measure, don't eyeball
-
-The interesting decision on this build was how to judge "does it look like Amazon."
-Screenshot comparison kept producing false confidence — I twice declared pages
-"verified" that had real defects in them. So the method changed to extracting
-**computed CSS from the live site** and diffing it numerically against ours.
-
-That produced an exact match on the structural values:
-
-| | amazon.com | This build |
-|---|---|---|
-| Body font | `"Amazon Ember", Arial` | identical |
-| Header height / background | 60px / `rgb(19,25,33)` | 60px / `rgb(19,25,33)` |
-| Subnav height / background | 39px / `rgb(35,47,62)` | 39px / `rgb(35,47,62)` |
-| Homepage card height | 420px | 420px |
-| Card heading | 21px / 700 | 21px / 700 |
-| Logo width | 114px | 114px |
-
-The same method found the gaps: subnav font was 14px against Amazon's 12px, the
-search box 42px against 40px, and the site had **no CSS transitions at all**
-(`transition` appeared zero times across all three stylesheets — Amazon uses
-`0.1s linear` on its controls).
-
-It also quantified content gaps rather than guessing at them. Amazon's homepage
-carries 20 card modules; this build had 8 — and all 8 matched Amazon's, so the
-work was additive, not corrective. Six modules were added against real catalog
-products. The subnav was missing *Coupons* and *Disability Customer Support*.
-
-## Structural findings worth calling out
-
-- **Search results were the wrong shape.** The PLP reused the homepage's grid of
-  vertical tiles. Amazon uses a vertical list of full-width horizontal rows. Rebuilt
-  as a separate `ProductRow` so the grid card stayed untouched for rails and
-  related-products.
-- **Price "ranges" weren't ranges.** The sidebar said "$25 to $50" but only ever
-  applied a `max`, so that bucket returned everything under $50 including $9.99
-  items. Added a real lower bound.
-- **No pagination.** All 191 results rendered on one page; Amazon paginates at 16.
-- **Deals filters were decoration.** Five pills, all `href="#deals"`. Now filter off
-  real catalog fields and produce distinct result sets.
-- **Preferences silently destroyed your delivery location.** Local state was seeded
-  from `useState(store.location)`, which captures the *pre-hydration* default. The
-  form showed "Pakistan" while the stored value was something else, and saving wrote
-  the stale default back. Found by exercising the flow, not by reading the code.
-
-## Automated checks beat visual inspection
-
-Three of the defects above were found by scripted checks rather than looking:
-
-- `scrollWidth > clientWidth` catches horizontal overflow that is nearly invisible
-  by eye. It caught a regression **I introduced** — a 6-column department grid that
-  broke mobile.
-- Hit-testing every heading/link/button's centre point with `elementFromPoint`
-  finds z-index and overlay bugs across a full 6,800px page, not just the viewport.
-- Cross-referencing every `className` in the codebase against defined CSS selectors
-  found 13 classes with no styling at all — including `.department-strip`, which was
-  rendering raw full-size images with overlapping captions.
-
-## Deliberately not done
-
-- **No wholesale import of an existing GitHub clone.** The popular Next.js Amazon
-  clones are Tailwind/Firebase builds driven by the FakeStore API's generic catalog;
-  one candidate was unlicensed. Importing would have replaced exactly-matching design
-  tokens and real product imagery with placeholder data.
-- **No fabricated product attributes.** Amazon's PLP carries category-specific facets
-  (Connectivity, Battery Life, Water Resistance). Ours doesn't, because the catalog has
-  no such fields and inventing them across 191 products would be fake depth.
-- **No real payments.** Checkout creates a server-backed demo order and never requests
-  payment details. Authentication and sessions are implemented for the exercise; email
-  verification, password reset, rate limiting, and a production database are outside
-  the bundled single-process adapter.
-- **USD throughout.** Amazon geo-localises currency; simulating that is a rabbit hole
-  with no payoff here.
-
-## Audits
-
-Three companion documents, each evidence-based — findings were reproduced or
-measured, and the checks that found nothing are recorded so the negative results
-are auditable too.
-
-- [SECURITY-AUDIT.md](./SECURITY-AUDIT.md) — threat model, a reproduced path
-  traversal in the capture hook, security headers, and why CSP is production-only.
-- [FRONTEND-AUDIT.md](./FRONTEND-AUDIT.md) — render waste (36 wasted renders per
-  carousel interaction → 0, measured), a drawer that silently rendered as a
-  centred dialog because its class had no rule, hook lifecycle, and overflow.
-- [ARCHITECTURE.md](./ARCHITECTURE.md) — routes, server/client data flow, and persistence.
-- [docs/BACKEND.md](./docs/BACKEND.md) — API contract, cookies, invariants, and limits.
-
-## Agent capture
-
-Prompts and responses are captured automatically to `.agent-logs/` via Claude Code
-`UserPromptSubmit` and `Stop` hooks. See [CAPTURE-TEST.md](./CAPTURE-TEST.md) for the
-mechanism, verification, and what broke on the way.
-
-The log is unedited, including the dead ends — the regressions I introduced and later
-caught, the pushback when I called something finished prematurely, and the pivot from
-"import a clone" to measuring the real site.
-
-## Attribution
-
-Ali Ahmed is the sole contributor and developer of this reconstruction. The complete
-content supply chain is documented in
-[docs/CONTENT-SOURCING.md](./docs/CONTENT-SOURCING.md).
-
-### Credits
-
-Three logo/favicon assets retain material from the MartsTech Amazon-clone reference
-under the MIT License; the complete required copyright and permission notice is in
-[docs/MartsTech-LICENSE.txt](./docs/MartsTech-LICENSE.txt). Amazon and its marks are
-trademarks of Amazon.com, Inc. This is an independent educational reconstruction;
-checkout creates demo orders only and never collects payment information.
+| Route | Experience |
+| --- | --- |
+| `/` | Homepage and product discovery |
+| `/s` | Search results and filters |
+| `/product/[id]` | Product detail and add to cart |
+| `/cart` | Cart management |
+| `/checkout` | Shipping and order placement |
+| `/order-confirmation` | Newly placed order |
+| `/orders` | Order history |
+| `/account` | Account and authentication |
+| `/wishlist` | Saved products |
+| `/preferences` | Delivery preferences |
+| `/deals` | Deals browsing |
+| `/help` | Help center |
