@@ -6,9 +6,15 @@ with the commit that fixed them; findings left open are marked as accepted risk 
 reasoning.
 
 **Audit date:** 2026-09-14 · **Commit at audit:** `fa7e475`..`HEAD`
+**Last re-verified:** 2026-09-15 against `62f76ed` — every finding below was re-checked
+against current source, not assumed to still hold. Each carries its own status line.
 **Scope:** application code (`app/`, `components/`, `lib/`), build config, the agent
 capture tooling in `.claude/`, and everything tracked by git (this repo is published
 publicly, so committed content is in scope).
+
+**Status key:** `RESOLVED` — fixed and re-confirmed present in current source ·
+`STILL OPEN` — real and unfixed · `WONT-FIX` — deliberate, with the reasoning kept
+alongside it.
 
 ## Threat model
 
@@ -30,7 +36,7 @@ What remains in scope, and what this audit concentrated on:
 
 ## Findings
 
-### SEC-01 — Path traversal in the capture hook · **High** · FIXED
+### SEC-01 — Path traversal in the capture hook · **High** · RESOLVED
 
 **Where:** `.claude/capture.py`
 
@@ -67,9 +73,12 @@ SAFE_ID = re.compile(r"^[A-Za-z0-9._-]{1,128}$")
 
 Re-tested: traversal contained, real UUID session ids unaffected.
 
+**Re-verified 2026-09-15.** `SAFE_ID` and `safe_session_id()` are still present in
+`.claude/capture.py` and still the only path into the ledger filename.
+
 ---
 
-### SEC-02 — No security headers on deployed responses · **Medium** · FIXED
+### SEC-02 — No security headers on deployed responses · **Medium** · RESOLVED
 
 **Where:** absent `next.config.ts`
 
@@ -96,9 +105,15 @@ rating histogram bars. Removing it requires nonce-based CSP. Accepted for now; t
 practical exposure is low given there is no user-generated content and no third-party
 script origins are permitted at all.
 
+**Re-verified 2026-09-15.** `next.config.ts` still sets all five headers with
+`poweredByHeader: false`, and CSP is still gated behind `isDev`. Confirmed live against
+the dev server: the four non-CSP headers present, CSP correctly absent. The
+`'unsafe-inline'` residual risk is unchanged and remains **STILL OPEN** by choice —
+closing it needs nonce-based CSP.
+
 ---
 
-### SEC-03 — Unvalidated order fields crash the render · **Low** · FIXED
+### SEC-03 — Unvalidated order fields crash the render · **Low** · RESOLVED
 
 **Where:** `components/store.tsx` hydration
 
@@ -111,9 +126,13 @@ Self-inflicted only (an attacker must already control the victim's `localStorage
 severity is low — but it is a real client-side denial of service and the fix is one
 line per field. Now type-checked alongside the existing fields.
 
+**Re-verified 2026-09-15.** The `typeof o.name`, `o.address` and `o.date` string checks
+are still in the hydration filter in `components/store.tsx`, alongside `id`, `total` and
+the `lines` array check.
+
 ---
 
-### SEC-04 — Agent capture hooks execute automatically on clone · **Informational** · ACCEPTED, documented
+### SEC-04 — Agent capture hooks execute automatically on clone · **Informational** · WONT-FIX
 
 `.claude/settings.json` registers hooks that run `python3 .claude/capture.py` on every
 prompt and every turn end. Anyone who clones this repository and opens it in Claude
@@ -128,21 +147,43 @@ specifies capture must fire on its own. Mitigation is transparency — the scrip
 short, dependency-free, reads only stdin and the transcript path it is given, and
 writes only under `.agent-logs/`.
 
+**Re-verified 2026-09-15.** Both hooks are still registered in `.claude/settings.json`
+and still invoke `capture.py` via `$CLAUDE_PROJECT_DIR`. The reasoning is unchanged, so
+this stays WONT-FIX rather than becoming an open item.
+
 ---
 
-### SEC-05 — Published conversation log · **Informational** · ACCEPTED
+### SEC-05 — Published conversation log · **Informational** · WONT-FIX
 
 `.agent-logs/` is committed deliberately and published. It contains the full prompt
 and response text of the build session.
 
-**Scanned and clean:**
+**Scanned and clean** (re-scanned 2026-09-15 across all tracked files):
 
 | Check | Result |
 |---|---|
 | API keys / tokens / private keys in tracked files | none |
 | Email addresses in tracked files | none |
-| Absolute local paths leaked | 1 (`/Users/aliahmed/Desktop/Amazon-Clone/README.md` — a path, no secret) |
+| Absolute local paths leaked | **3 distinct paths across 6 files** — see below |
 | `.env*` tracked | none (git-ignored) |
+
+**The absolute-path count grew since the first audit (1 file → 6), so it is worth
+restating precisely.** There are only three distinct paths, none of them secret:
+
+| Path | Appears in | What it discloses |
+|---|---|---|
+| `/Users/aliahmed/Desktop/Amazon-Clone/README.md` | this audit's own citation, the agent logs | the local username and project directory |
+| `/var/folders/1f/…/browser-use/assets/…/manifest.json` | `scripts/expand-catalog.py`, and `CODEBASE-SNAPSHOT.md` which dumps that script verbatim | a macOS per-user temp directory that no longer has meaning off this machine |
+| `/var/folders/` (bare, elided) | `ARCHITECTURE.md` §5 | nothing |
+
+The growth is entirely from documentation added after the original audit — the snapshot
+dumps `expand-catalog.py` verbatim, and §5 of the architecture doc now names its manifest
+path when explaining why the script is not reproducible on a fresh clone. No new path was
+introduced into application code.
+
+**Assessment: WONT-FIX.** The disclosure is a local username and a dead temp path, which
+is the same class of information the commit metadata already carries. Redacting it would
+make `CODEBASE-SNAPSHOT.md` a non-faithful dump, which defeats its purpose.
 
 The git **commit metadata** does carry the author's email (`git log --format='%ae'`),
 which is normal for any public repo but worth stating explicitly since the author may
@@ -152,7 +193,9 @@ not have considered it when making the repo public.
 
 ## Checks performed that found nothing
 
-Recording these so the negative results are auditable too.
+Recording these so the negative results are auditable too. Re-run 2026-09-15 — all still
+clean; `npm audit --omit=dev` and the injection-sink grep were executed again rather than
+carried forward on trust.
 
 | Area | Method | Result |
 |---|---|---|

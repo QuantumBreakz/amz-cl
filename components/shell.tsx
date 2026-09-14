@@ -51,6 +51,16 @@ export function Modal({
   );
 }
 const departments = ["All", ...categories.map(c => c.name)];
+const COUNTRIES = [
+  "Pakistan",
+  "United States",
+  "United Kingdom",
+  "Canada",
+  "India",
+  "United Arab Emirates",
+  "Australia",
+  "Germany",
+];
 export function Header() {
   const s = useStore(),
     router = useRouter(),
@@ -66,6 +76,15 @@ export function Header() {
     [account, setAccount] = useState(false);
   const [department, setDepartment] = useState("");
   const [showAppBanner, setShowAppBanner] = useState(true);
+  // The country select is a controlled input whose value is written straight back
+  // via setLocation on "Done". Seeded with a literal it showed "Pakistan" even when
+  // the stored location was something else, so simply opening the modal and
+  // confirming silently overwrote the real value. Adopt it once hydrated.
+  useEffect(() => {
+    if (!s.ready) return;
+    const resolved = s.location.includes("US ") ? "United States" : s.location;
+    setCountry(COUNTRIES.includes(resolved) ? resolved : "Pakistan");
+  }, [s.ready, s.location]);
   const suggestions = [
     ...new Set(
       products
@@ -384,16 +403,7 @@ export function Header() {
             value={country}
             onChange={(e) => setCountry(e.target.value)}
           >
-            {[
-              "Pakistan",
-              "United States",
-              "United Kingdom",
-              "Canada",
-              "India",
-              "United Arab Emirates",
-              "Australia",
-              "Germany",
-            ].map((c) => (
+            {COUNTRIES.map((c) => (
               <option key={c}>{c}</option>
             ))}
           </select>
