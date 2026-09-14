@@ -95,6 +95,19 @@ Three of the defects above were found by scripted checks rather than looking:
 - **USD throughout.** Amazon geo-localises currency; simulating that is a rabbit hole
   with no payoff here.
 
+## Audits
+
+Three companion documents, each evidence-based — findings were reproduced or
+measured, and the checks that found nothing are recorded so the negative results
+are auditable too.
+
+- [SECURITY-AUDIT.md](./SECURITY-AUDIT.md) — threat model, a reproduced path
+  traversal in the capture hook, security headers, and why CSP is production-only.
+- [FRONTEND-AUDIT.md](./FRONTEND-AUDIT.md) — render waste (36 wasted renders per
+  carousel interaction → 0, measured), a drawer that silently rendered as a
+  centred dialog because its class had no rule, hook lifecycle, and overflow.
+- [ARCHITECTURE.md](./ARCHITECTURE.md) — routes, data flow, and the state container.
+
 ## Agent capture
 
 Prompts and responses are captured automatically to `.agent-logs/` via Claude Code
