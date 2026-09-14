@@ -1,8 +1,11 @@
 "use client";
 import {
   createContext,
+  useCallback,
   useContext,
   useEffect,
+  useMemo,
+  useRef,
   useState,
   ReactNode,
 } from "react";
@@ -95,58 +98,104 @@ function useCommerceState() {
       return () => clearTimeout(t);
     }
   }, [toast]);
-  return {
-    ...state,
-    ready,
-    toast,
-    notify: setToast,
-    total: subtotalCents(state.cart, products) / 100,
-    count: state.cart.reduce((n, l) => n + l.quantity, 0),
-    add: (id: string, qty = 1, color?: string) => {
-      setState((s) => ({
-        ...s,
-        cart: setQuantity(
-          s.cart,
-          id,
-          (s.cart.find((l) => l.id === id)?.quantity ?? 0) + qty,
-          products,
-          color,
-        ),
-      }));
-      setToast("Added to Cart");
-    },
-    quantity: (id: string, qty: number) =>
-      setState((s) => ({ ...s, cart: setQuantity(s.cart, id, qty, products) })),
-    save: (id: string) => {
-      setState((s) => ({
-        ...s,
-        saved: [...new Set([...s.saved, id])],
-        cart: s.cart.filter((l) => l.id !== id),
-      }));
-      setToast("Saved for later");
-    },
-    unsave: (id: string) =>
-      setState((s) => ({ ...s, saved: s.saved.filter((x) => x !== id) })),
-    login: (name: string) => setState((s) => ({ ...s, name })),
-    setLocation: (location: string) => setState((s) => ({ ...s, location })),
-    placeOrder: (name: string, address: string) => {
-      const order: Order = {
-        id: `113-${Date.now().toString().slice(-7)}-${Math.floor(
-          Math.random() * 10000000,
-        )
-          .toString()
-          .padStart(7, "0")}`,
-        date: new Date().toISOString(),
-        lines: state.cart.map((x) => ({ ...x })),
-        total: subtotalCents(state.cart, products) / 100,
-        name,
-        address,
-      };
-      if (!order.lines.length) return null;
-      setState((s) => ({ ...s, cart: [], orders: [order, ...s.orders] }));
-      return order.id;
-    },
-  };
+  // Derived values recompute only when the cart changes. subtotalCents does a
+  // catalog lookup per line, so this ran O(lines x catalog) on every render.
+  const total = useMemo(
+    () => subtotalCents(state.cart, products) / 100,
+    [state.cart],
+  );
+  const count = useMemo(
+    () => state.cart.reduce((n, l) => n + l.quantity, 0),
+    [state.cart],
+  );
+
+  // Stable identities: every action uses the functional setState form, so none
+  // of them need to close over current state and none need to be re-created.
+  const add = useCallback((id: string, qty = 1, color?: string) => {
+    setState((s) => ({
+      ...s,
+      cart: setQuantity(
+        s.cart,
+        id,
+        (s.cart.find((l) => l.id === id)?.quantity ?? 0) + qty,
+        products,
+        color,
+      ),
+    }));
+    setToast("Added to Cart");
+  }, []);
+
+  const quantity = useCallback((id: string, qty: number) => {
+    setState((s) => ({ ...s, cart: setQuantity(s.cart, id, qty, products) }));
+  }, []);
+
+  const save = useCallback((id: string) => {
+    setState((s) => ({
+      ...s,
+      saved: [...new Set([...s.saved, id])],
+      cart: s.cart.filter((l) => l.id !== id),
+    }));
+    setToast("Saved for later");
+  }, []);
+
+  const unsave = useCallback((id: string) => {
+    setState((s) => ({ ...s, saved: s.saved.filter((x) => x !== id) }));
+  }, []);
+
+  const login = useCallback((name: string) => {
+    setState((s) => ({ ...s, name }));
+  }, []);
+
+  const setLocation = useCallback((location: string) => {
+    setState((s) => ({ ...s, location }));
+  }, []);
+
+  // placeOrder must return the new id *synchronously* — the checkout redirects on
+  // it. So it cannot be computed inside the setState updater, which React may run
+  // later. A ref tracks the latest cart instead: fresh data, stable identity, and
+  // a synchronous return.
+  const cartRef = useRef(state.cart);
+  useEffect(() => {
+    cartRef.current = state.cart;
+  }, [state.cart]);
+
+  const placeOrder = useCallback((name: string, address: string) => {
+    const cart = cartRef.current;
+    if (!cart.length) return null;
+    const order: Order = {
+      id: `113-${Date.now().toString().slice(-7)}-${Math.floor(
+        Math.random() * 10000000,
+      )
+        .toString()
+        .padStart(7, "0")}`,
+      date: new Date().toISOString(),
+      lines: cart.map((x) => ({ ...x })),
+      total: subtotalCents(cart, products) / 100,
+      name,
+      address,
+    };
+    setState((s) => ({ ...s, cart: [], orders: [order, ...s.orders] }));
+    return order.id;
+  }, []);
+
+  return useMemo(
+    () => ({
+      ...state,
+      ready,
+      toast,
+      notify: setToast,
+      total,
+      count,
+      add,
+      quantity,
+      save,
+      unsave,
+      login,
+      setLocation,
+      placeOrder,
+    }),
+    [state, ready, toast, total, count, add, quantity, save, unsave, login, setLocation, placeOrder],
+  );
 }
 const Store = createContext<ReturnType<typeof useCommerceState> | null>(null);
 export function StoreProvider({ children }: { children: ReactNode }) {
