@@ -80,17 +80,18 @@ All 11 live in `components/`. They own interactivity and user state:
 | `account.tsx` | 332 | Auth pages, account grid, wishlist, preferences |
 | `checkout.tsx` | 265 | Address form, validation, order placement |
 | `cart.tsx` | 238 | Line items, selection, saved-for-later, recommendations |
-| `store.tsx` | 169 | The state container (see §3) |
+| `store.tsx` | 218 | The state container (see §3) |
 | `orders.tsx` | 155 | Order history and confirmation |
-| `home.tsx` | 106 | Hero carousel, 20 card modules, rails, department strip |
+| `home.tsx` | 112 | Hero carousel, 20 card modules, rails, department strip |
 | `product-row.tsx` | 81 | Search-results row (list layout) |
-| `ui.tsx` | 78 | Shared primitives: `Price`, `Stars`, `ProductCard`, `abbreviateCount` |
 | `brand-filter.tsx` | 38 | Expandable brand facet ("See more") |
+| `search-sort.tsx` | 28 | Sort dropdown that rewrites `?sort=` via `useRouter` |
 
-`ui.tsx` is deliberately **not** a client component — it has no hooks, so it renders on
-either side. That matters because `product-row.tsx` (client) imports from it, and a
-circular dependency was avoided by putting `abbreviateCount` there rather than the
-reverse.
+The twelfth file in `components/`, **`ui.tsx` (78 lines)**, is deliberately *not* a client
+component — it has no hooks, so it renders on either side. It holds the shared primitives
+`Price`, `Stars`, `ProductCard` and `abbreviateCount`. That split matters because
+`product-row.tsx` (client) imports from it, and a circular dependency was avoided by
+putting `abbreviateCount` there rather than the reverse.
 
 ---
 
@@ -101,8 +102,21 @@ Redux, no Zustand.
 
 ### Shape
 
+The **persisted** state — the object that round-trips through `localStorage`:
+
 ```ts
 { cart: CartLine[], saved: string[], orders: Order[], name: string, location: string }
+```
+
+The **context surface** consumers actually see is that object spread flat, plus derived
+values, lifecycle flags, the notification channel, and seven actions:
+
+```ts
+{ ...state,
+  ready: boolean,                        // hydration complete — see below
+  total: number, count: number,          // derived, memoised
+  toast: string, notify(msg),            // transient notifications
+  add, quantity, save, unsave, login, setLocation, placeOrder }
 ```
 
 ### The hydration contract (this is the subtle part)
@@ -142,6 +156,45 @@ because `localStorage` is fully user-controlled:
 **Prices are never read from persisted state.** Totals always recompute from the catalog,
 so a forged price in `localStorage` cannot change what the cart says.
 
+One failure mode is surfaced rather than swallowed: if the `setItem` write throws (quota
+exceeded, or Safari private mode), the store pushes a message through the toast channel
+below telling the user to keep the tab open, instead of silently losing their cart.
+
+### Transient notifications (the toast channel)
+
+The store owns a small notification channel alongside the persisted state. It is part of
+the store rather than a separate provider because almost every trigger is already a store
+action.
+
+```ts
+toast: string          // "" when nothing is showing
+notify: (msg: string) => void
+```
+
+- **Rendered by `StoreProvider` itself**, not by any page — a single `role="status"` node
+  so screen readers announce it, fixed-position via `.toast`.
+- **Self-clearing.** A `useEffect` keyed on `toast` sets a 3.5s timer and returns
+  `clearTimeout` as cleanup, so rapid successive messages reset the timer instead of
+  stacking orphaned ones.
+- **Two internal triggers:** `add()` ("Added to Cart") and `save()` ("Saved for later").
+- **Five external callers** use `notify()` directly — copy-link in `cart.tsx`, the promo
+  code and tracking/review buttons in `checkout.tsx` and `orders.tsx`, and preference
+  saving in `account.tsx`. It is how the demo's deliberately-inert controls stay honest:
+  they say *"Tracking isn't available in this demo"* rather than doing nothing.
+
+### Context identity
+
+The provider's value is memoised — derived values (`total`, `count`) in `useMemo`, all
+seven actions in `useCallback`, and the returned object in a final `useMemo`. Without
+this the value was a fresh object literal every render and **every** consumer re-rendered
+on any state change. The actions can have genuinely empty dependency arrays because they
+all use the functional `setState` form and never close over current state.
+
+The one exception is `placeOrder`, which must return the new order id *synchronously*
+(checkout redirects on it). It reads the cart from a ref that an effect keeps in sync,
+rather than from the `setState` updater — which React may run later, and which made the
+function return `null`. See `FRONTEND-AUDIT.md` FE-01/FE-02.
+
 ---
 
 ## 4. Commerce logic — the one pure, tested module
@@ -152,12 +205,15 @@ exactly why it is testable.
 
 | Function | Contract |
 |---|---|
-| `setQuantity(lines, id, qty, catalog, color?)` | Clamps to `[0, stockQuantity]`, floors, removes at 0, drops unknown ids |
+| `setQuantity(lines, id, qty, catalog, color?)` | Clamps to `[0, stockQuantity]`, floors, removes at 0, drops unknown ids, and rejects non-finite quantities (`NaN`/`Infinity` leave the cart untouched) |
 | `subtotalCents(lines, catalog)` | **Integer cents** — `round(price*100) * qty` — avoids float drift |
 | `validCart(value, catalog)` | Sanitises arbitrary JSON from storage by re-running every entry through `setQuantity` |
 | `money(amount)` | `Intl.NumberFormat` USD formatter |
 
 Money is handled in integer cents throughout and only converted to a float for display.
+The module also exports the `CartLine` and `ProductPrice` types; `ProductPrice` is
+deliberately narrower than `Product` (`id`, `price`, `stockQuantity` only), so the
+arithmetic cannot accidentally depend on catalog presentation fields.
 
 ---
 
@@ -183,8 +239,33 @@ searchUrl(q, category)     // `/s?k=…&category=…`  (encodeURIComponent'd)
 `Product` is *inferred* from the JSON (`typeof products[number]`) rather than hand-written,
 so the type cannot drift from the data.
 
+`banners` is exported for completeness but **nothing currently consumes it** — it is a
+leftover key in `catalog.json`, not a live part of the data flow.
+
 **Images** are local files under `public/assets/` — no external CDN, no hotlinking, which
 is also why the CSP can be `img-src 'self'`.
+
+### How the catalog was authored (and why §12 still says "frozen")
+
+`scripts/expand-catalog.py` is a **dev-time authoring script, run manually**. It is not
+imported by the app, not referenced by any `package.json` script, and not part of the
+build or deploy path — `next build` never executes it. Its job was one-off: copy observed
+reference images into `public/assets/reference/`, write the asset-mapping JSON, and add
+hand-authored product rows to `lib/catalog.json`.
+
+It **regenerates rather than appends**, which matters if anyone is tempted to re-run it:
+it deletes every `ref-*` product, re-creates them from a literal table in the script, and
+rebuilds the entire `categories` array by deriving departments and sub-categories from
+whatever products remain. Hand edits to `ref-*` entries would not survive.
+
+It is also **not reproducible on a fresh clone**: it reads an absolute path to an
+ephemeral local browser-session manifest under `/var/folders/…`, so it functions as a
+record of how the fixture data was produced rather than a tool a reviewer can re-run.
+
+So it is not a counter-example to §12's "catalog is frozen at build time". That limit is
+about the *running application*: there is no runtime admin surface and no user-facing way
+to add or edit a product. Changing the catalog still means editing JSON in the repo and
+redeploying — whether a human or this script does the editing.
 
 ---
 
@@ -234,15 +315,14 @@ and footer on `/checkout` and `/ap/*`, matching Amazon's reduced chrome on those
 
 ## 8. Styling
 
-Plain CSS, no framework, no CSS-in-JS, no CSS modules. Four stylesheets imported from
-the root layout, ~3,100 lines total:
+Plain CSS, no framework, no CSS-in-JS, no CSS modules. Three stylesheets, all imported
+from the root layout, 2,978 lines total:
 
-| File | Purpose |
-|---|---|
-| `app/globals.css` | Design tokens, layout, every page's core styling |
-| `app/search-fidelity.css` | Search result rows and pagination |
-| `app/mobile-fidelity.css` | Mobile header, promo rail, subnav overrides |
-| `next.config.ts` headers | (not styling — see §10) |
+| File | Lines | Purpose |
+|---|---:|---|
+| `app/globals.css` | 2,751 | Design tokens, layout, every page's core styling |
+| `app/search-fidelity.css` | 159 | Search result rows and pagination |
+| `app/mobile-fidelity.css` | 68 | Mobile header, promo rail, subnav overrides |
 
 Design tokens live in `:root` and were taken from live amazon.com by extracting computed
 styles, not by eye:
@@ -272,7 +352,7 @@ Worth documenting as architecture because it shaped the code.
 |---|---|
 | Types | `npm run typecheck` (`tsc --noEmit`, strict) |
 | Commerce logic | `npm test` (3 tests over `lib/commerce.ts`) |
-| Build | `npm run build` — 16 routes |
+| Build | `npm run build` — 15 routes (see §2) |
 | Horizontal overflow | `document.documentElement.scrollWidth > clientWidth` in-browser |
 | Overlay / z-index bugs | `elementFromPoint` hit-test on every heading/link/button, scrolled across the full page |
 | Orphaned CSS | cross-reference every `className` in source against defined selectors |
@@ -341,7 +421,9 @@ Stated plainly rather than buried:
 - **Single-device state.** `localStorage` means a cart does not follow a user across
   devices or browsers, and clearing site data destroys order history.
 - **Catalog is frozen at build time.** Adding a product means editing JSON and
-  redeploying; there is no admin surface.
+  redeploying; there is no runtime admin surface and no user-facing way to add or edit
+  one. (`scripts/expand-catalog.py` is a manual dev-time authoring script outside the
+  build path, not an exception to this — see §5.)
 - **Some product attributes are absent**, so category-specific facets Amazon offers
   (Connectivity, Battery Life, Water Resistance) are not implemented. Inventing those
   fields across 191 products would be fabricated depth rather than real capability.
