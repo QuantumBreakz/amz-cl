@@ -5,7 +5,7 @@
         "hooks": [
           {
             "type": "command",
-            "command": "python3 .claude/capture.py prompt",
+            "command": "AGENT_CAPTURE_TOOL=codex python3 \"$(git rev-parse --show-toplevel)/.claude/capture.py\" prompt",
             "timeout": 15
           }
         ]
@@ -16,7 +16,7 @@
         "hooks": [
           {
             "type": "command",
-            "command": "python3 .claude/capture.py response",
+            "command": "AGENT_CAPTURE_TOOL=codex python3 \"$(git rev-parse --show-toplevel)/.claude/capture.py\" response",
             "timeout": 20
           }
         ]

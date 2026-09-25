@@ -32,8 +32,9 @@ def safe_session_id(value):
 REPO = Path(__file__).resolve().parent.parent
 LOGS = REPO / ".agent-logs"
 LEDGER = LOGS / ".ledger"
-AUTHOR = os.environ.get("AGENT_LOG_AUTHOR", "Ali Ahmed")
+AUTHOR = os.environ.get("AGENT_LOG_AUTHOR", "QuantumBreakz")
 PROJECT = REPO.name
+CAPTURE_TOOL = os.environ.get("AGENT_CAPTURE_TOOL", "claude-code")
 
 
 def now_iso():
@@ -93,6 +94,7 @@ def append(session_id, kind, text, model, transcript_path=""):
         "type": kind,
         "timestamp": now_iso(),
         "model": model or "unknown",
+        "tool": CAPTURE_TOOL,
         "text": text,
     }
     with (LEDGER / f"{session_id}.jsonl").open("a") as fh:
@@ -123,8 +125,40 @@ def render(session_id):
     last_ts = prompts[-1]["timestamp"] if prompts else entries[-1]["timestamp"]
     short = session_id[:8]
     date = first_ts[:10]
-    models = [e["model"] for e in entries if e.get("model") and e["model"] != "unknown"]
-    model = models[-1] if models else "unknown"
+    known_models = []
+    for entry in entries:
+        candidate = entry.get("model", "")
+        if candidate in ("", "unknown", "<synthetic>") or candidate in known_models:
+            continue
+        known_models.append(candidate)
+    model = ", ".join(known_models) if known_models else "unknown"
+    tools = []
+    for entry in entries:
+        candidate = entry.get("tool", "claude-code")
+        if candidate and candidate not in tools:
+            tools.append(candidate)
+    tool = ", ".join(tools) if tools else "claude-code"
+
+    # Prompt hooks can fire before the transcript records the active model. Use
+    # the matching response model in the rendered Markdown while keeping the
+    # append-only ledger untouched.
+    rendered_models = []
+    last_known = known_models[0] if known_models else "unknown"
+    for index, entry in enumerate(entries):
+        candidate = entry.get("model", "unknown")
+        if candidate in ("", "unknown", "<synthetic>"):
+            following = next(
+                (
+                    item.get("model")
+                    for item in entries[index + 1 :]
+                    if item.get("model") not in (None, "", "unknown", "<synthetic>")
+                ),
+                None,
+            )
+            candidate = following or last_known
+        else:
+            last_known = candidate
+        rendered_models.append(candidate)
 
     out = [
         "---",
@@ -132,7 +166,7 @@ def render(session_id):
         f"date: {date}",
         f"author: {AUTHOR}",
         f"model: {model}",
-        "tool: claude-code",
+        f"tool: {tool}",
         f"project: {PROJECT}",
         f"total_exchanges: {len(prompts)}",
         f"first_prompt_time: {first_ts}",
@@ -148,12 +182,12 @@ def render(session_id):
     ]
 
     num = 0
-    for entry in entries:
+    for index, entry in enumerate(entries):
         if entry["type"] == "PROMPT":
             num += 1
         out.append(f"[LOG_ENTRY type={entry['type']} num={num} session={short}]")
         out.append(f"timestamp: {entry['timestamp']}")
-        out.append(f"model: {entry['model']}")
+        out.append(f"model: {rendered_models[index]}")
         out.append("")
         out.append(entry["text"])
         out.append("")
@@ -171,8 +205,22 @@ def main():
     transcript = event.get("transcript_path", "")
 
     if mode == "prompt":
-        append(session_id, "PROMPT", event.get("prompt", ""), transcript_model(transcript))
+        append(
+            session_id,
+            "PROMPT",
+            event.get("prompt", ""),
+            event.get("model") or transcript_model(transcript),
+        )
     elif mode == "response":
+        if event.get("last_assistant_message"):
+            append(
+                session_id,
+                "RESPONSE",
+                event["last_assistant_message"],
+                event.get("model", ""),
+                transcript,
+            )
+            return
         # Stop can fire in the same event loop turn that flushes the final
         # transcript record. Retry briefly so an automatic hook never drops a
         # valid final response just because the file write is a few milliseconds late.

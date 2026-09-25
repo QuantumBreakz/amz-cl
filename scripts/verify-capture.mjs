@@ -6,8 +6,10 @@ import process from "node:process";
 
 const root = process.cwd();
 const settingsPath = path.join(root, ".claude", "settings.json");
+const codexHooksPath = path.join(root, ".codex", "hooks.json");
 const logsDir = path.join(root, ".agent-logs");
 const settings = JSON.parse(fs.readFileSync(settingsPath, "utf8"));
+const codexHooks = JSON.parse(fs.readFileSync(codexHooksPath, "utf8"));
 
 const commandFor = (event) => settings?.hooks?.[event]?.flatMap((group) => group.hooks ?? [])
   .find((hook) => hook.type === "command")?.command;
@@ -16,6 +18,16 @@ if (commandFor("UserPromptSubmit") !== "python3 .claude/capture.py prompt") {
 }
 if (commandFor("Stop") !== "python3 .claude/capture.py response") {
   throw new Error("Stop capture hook is missing or changed");
+}
+
+const codexCommandFor = (event) => codexHooks?.hooks?.[event]
+  ?.flatMap((group) => group.hooks ?? [])
+  .find((hook) => hook.type === "command")?.command;
+for (const [event, mode] of [["UserPromptSubmit", "prompt"], ["Stop", "response"]]) {
+  const command = codexCommandFor(event) ?? "";
+  if (!command.includes("AGENT_CAPTURE_TOOL=codex") || !command.endsWith(`capture.py\" ${mode}`)) {
+    throw new Error(`Codex ${event} capture hook is missing or changed`);
+  }
 }
 
 const markdownLogs = fs.readdirSync(logsDir)
@@ -33,4 +45,4 @@ const canaryPrompts = markdownLogs.reduce((count, file) => {
 }, 0);
 if (canaryPrompts < 2) throw new Error("Missing the two-session canary prompts");
 
-console.log(`capture verification passed: ${markdownLogs.length} markdown logs, two canary sessions, both lifecycle hooks wired`);
+console.log(`capture verification passed: ${markdownLogs.length} markdown logs, two canary sessions, Claude Code and Codex lifecycle hooks wired`);
